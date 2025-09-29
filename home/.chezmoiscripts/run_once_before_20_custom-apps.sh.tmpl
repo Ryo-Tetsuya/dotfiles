@@ -1,0 +1,64 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+# Homebrew core removed support for build options like --with-fdk-aac
+brew tap homebrew-ffmpeg/ffmpeg
+brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac
+
+# Define the URLs for the application packages to be downloaded
+urls=(
+    "https://github.com/Ryo-Tetsuya/assets/releases/download/Patched/BusyCal.zip"
+    "https://github.com/Ryo-Tetsuya/assets/releases/download/Patched/Hazel.zip"
+    "https://github.com/Ryo-Tetsuya/assets/releases/download/Patched/PDF.Expert.zip"
+    "https://github.com/Ryo-Tetsuya/assets/releases/download/Patched/RcloneBrowser.zip"
+    "https://github.com/Ryo-Tetsuya/assets/releases/download/Patched/Surge.zip"
+    "https://github.com/Ryo-Tetsuya/assets/releases/download/Patched/TablePlus.zip"
+    "https://github.com/Ryo-Tetsuya/assets/releases/download/Patched/Transmit.zip"
+)
+
+# Create a temporary directory named 'temp' and navigate into it
+tmp_dir="$HOME/temp"
+mkdir -p "$tmp_dir"
+cd "$tmp_dir"
+
+# Download all the specified URLs
+echo -e "\033[1;34m[INFO]\033[0m Initiating download of application packages..."
+for url in "${urls[@]}"; do
+    echo -e "\033[1;32m[Downloading]\033[0m $url"
+    curl -L -O "$url"
+done
+
+# Unzip all the downloaded .zip files in the 'temp' directory
+echo -e "\033[1;34m[INFO]\033[0m Extracting all .zip files..."
+for zip_file in *.zip; do
+    echo -e "\033[1;32m[Extracting]\033[0m $zip_file"
+    unzip -q "$zip_file"
+done
+
+# Install the .app directories
+echo -e "\033[1;34m[INFO]\033[0m Installing applications to /Applications..."
+for app_dir in *.app; do
+    if [ -d "$app_dir" ]; then
+        app_name=$(basename "$app_dir")
+        app_dest="/Applications/$app_name"
+
+        # Check if the application already exists in /Applications/ and remove the existing version if necessary
+        if [ -d "$app_dest" ]; then
+            echo -e "\033[1;33m[INFO]\033[0m Removing existing version of $app_name in /Applications/"
+            sudo rm -rf "$app_dest"
+        fi
+
+        # Move the new application to /Applications/
+        echo -e "\033[1;32m[Installing]\033[0m $app_name to /Applications/"
+        sudo mv "$app_dir" /Applications/
+
+        # Clear extended attributes on the moved app
+        echo -e "\033[1;32m[Dequarantine]\033[0m Removing extended attributes for $app_name"
+        sudo xattr -cr "/Applications/$app_name"
+    fi
+done
+
+# Cleanup: Remove the temporary directory after the operation is complete
+echo -e "\033[1;34m[INFO]\033[0m Done, removing temporary directory..."
+rm -rf "$tmp_dir"
+{{ end -}}

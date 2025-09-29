@@ -1,0 +1,23 @@
+{
+  "disabled_plugins": {
+    "__class__": "set",
+    "__value__": [
+      "Google",
+      "Open Library"
+    ]
+  },
+  "enabled_plugins": {
+    "__class__": "set",
+    "__value__": [
+      "Amazon.com"
+    ]
+  },
+  "filetype_mapping": {},
+  "plugin_customization": {},
+  "plugins": {
+    "DeDRM": "/Users/alice/Library/Preferences/calibre/plugins/DeDRM.zip",
+    "Extract ISBN": "/Users/alice/Library/Preferences/calibre/plugins/Extract ISBN.zip",
+    "Goodreads": "/Users/alice/Library/Preferences/calibre/plugins/Goodreads.zip",
+    "Obok DeDRM": "/Users/alice/Library/Preferences/calibre/plugins/Obok DeDRM.zip"
+  }
+}

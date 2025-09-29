@@ -1,0 +1,6 @@
+[user]
+	name = Ryo Tetsuya
+    email = ryo.tetsuya@pm.me
+	signingkey = AEE15E8EA1753BB8
+[commit]
+	gpgSign = true

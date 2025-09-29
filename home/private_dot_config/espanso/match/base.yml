@@ -1,0 +1,65 @@
+matches:
+  # Currencies
+  - trigger: ";eur"
+    replace: "€"
+
+  - trigger: ";gbp"
+    replace: "£"
+
+  - trigger: ";cny"
+    replace: "¥"
+
+  - trigger: ";btc"
+    replace: "฿"
+    
+  # Scientific Symbols
+  - trigger: ";deg"
+    replace: "°"
+
+  - trigger: ";inf"
+    replace: "∞"
+    
+  # SSH Commands
+  - trigger: ";ssh-pubkey"
+    replace: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZcWN1O4xGvF8oKiMXOfB0i7hO9P/ChD6yM5NRn3ZZsUxpAYrE1E86x5KvIipGKXZ0l907ECPb3pZHmSR4kXSu9jGXaHGTsrn/guVrMYkwXCA5JIjhfdQGoMyM8Isdb5+itj+h58LrOihK3whI8ycuCKXzov7m+wxO+0G+QCQcLRCTb2TtKy845M/RvLxImBj8sKP6YMlXJA25h/9BXGr56lGm8DaceFSUBRDjscOABs0zJlphiA+p0UhenpdpgbmnxMStdsUmES7klAN+LDdNxYpvWMre8Ged+IuHaHgMCnaLCiojmIMZV6XQGvXP34KQtBdHDtlTqBGjiT+UgZ2Ow44J+IIgYzgfGzI00dfEbUWvtWaE1u+J+15p8Vz6XTW4llqq9aBud3IDdy3/s7QxdGZFJFa4MoQ57I5dhtm9owHsan5a3lfd73TjUfxCh7XOwVsfKrZHrpAviAlnnoIO+NN1hx82JzlEMVObRRVjtTXV/Q0VAc3ZPfp5TWIqvsI1NuINedFTdqHPV5bZu7JNebe4TuACCYDeYEpG3nn666YF0so0X4waSoWDmuLBndbw/MbD3WSyikDr39RSzTCVd/HeinIjIBoAcg1DDugCttXFP2gMhNUtLU1HIrZnkZrXYfZ8L42lVSXT5HA+J7XRYS+cNQ31um7nZRwMhoysNQ=="
+ 
+  - trigger: ';ssh-deploy'
+    replace: >
+      echo "Enter the remote username: " &&
+      read remote_username &&
+      echo "Enter the remote server address: " &&
+      read remote_address &&
+      echo "Enter your SSH public key: " &&
+      read ssh_pubkey &&
+      ssh $remote_username@$remote_address "mkdir -p ~/.ssh &&
+      echo '$ssh_pubkey' >> ~/.ssh/authorized_keys &&
+      chmod 700 ~/.ssh &&
+      chmod 600 ~/.ssh/authorized_keys &&
+      sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config &&
+      service ssh restart"
+
+  # AI Prompts
+  - trigger: ";ai-enhancequery" 
+    replace: "Functioning as an Augmentative Prompt AI, you will undertake the task of refining user-input prompts to render them more captivating, elaborate, and intellectually stimulating. Illustrate the methodology employed in refining a prompt, delineate the categories of enhancements executed, and furnish an instance showcasing the conversion of a rudimentary, single-sentence prompt into a nuanced, multi-faceted query that fosters profound contemplation and heightened discernment:\n"
+
+  - trigger: ";ai-metaphor"
+    replace: "Craft a metaphorical masterpiece, replacing this sentence with a vivid tapestry of language that ignites the imagination and stirs the depths of emotion, much like an adept artist deftly painting upon the canvas of expression:\n"
+
+  - trigger: ";ai-revcomplexity"
+    replace: "Please revise the provided sentences, making sure to correct any grammatical errors and enhance the vocabulary where appropriate, while showcasing a sophisticated command of the English language:\n"
+
+  - trigger: ";ai:summary"
+    replace: "Please compose a numbered list of key takeaways and distinctive points from the subsequent text that encapsulate its most valuable and exceptional aspects:\n"
+
+  # Docker Command
+  - trigger: ";dkill"
+    replace: "docker kill $(docker ps -a -q)"
+    
+  # Outputs Public IP Address
+  - trigger: ";ip"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "curl 'https://api.ipify.org'"

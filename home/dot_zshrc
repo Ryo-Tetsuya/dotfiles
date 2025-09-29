@@ -1,0 +1,115 @@
+##### Command Completion #####
+autoload -U compinit && compinit  # Load and initialize command completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # Enable case-insensitive completion
+
+##### Powerlevel10k Configuration #####
+source ~/.powerlevel10k/powerlevel10k.zsh-theme # Load Powerlevel10k theme
+source ~/.p10k.zsh  # Load Powerlevel10k settings
+
+##### Command Correction #####
+eval $(thefuck --alias)  # Set up alias for 'thefuck' correction tool
+
+##### Navigation Tools #####
+eval "$(zoxide init zsh)"  # Initialize zoxide for quick directory navigation
+
+##### Git Enhancements #####
+source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh  # Enable Git Extras completion
+
+##### Syntax Highlighting #####
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh  # Enable Zsh syntax highlighting
+
+##### History Settings #####
+HISTSIZE=5000  # Maximum number of history entries in memory
+HISTFILE=~/.zsh_history  # File to store command history
+SAVEHIST=5000  # Number of history entries to save
+HISTDUP=erase  # Remove duplicate commands
+setopt appendhistory  # Append history instead of overwriting
+setopt sharehistory  # Share history across all sessions
+setopt incappendhistory  # Save commands as they are entered
+setopt hist_ignore_all_dups  # Remove all duplicate history entries
+setopt hist_save_no_dups  # Avoid saving duplicates
+setopt hist_ignore_dups  # Ignore duplicates when searching history
+setopt hist_find_no_dups  # Ignore duplicates in history search
+
+##### Network Tools #####
+alias curl='/opt/homebrew/opt/curl/bin/curl'  # Use Homebrew's curl
+alias wnas='wakeonlan 00:11:32:d1:60:09'  # Wake Synology NAS
+
+##### File Management #####
+alias ff='find . -type f -name'  # Find files by name
+alias fd='find . -type d -name'  # Find directories by name
+
+##### Directory Listing #####
+alias l='eza -aF --icons'  # List all files with icons
+alias ll='eza -laF --icons'  # Detailed list with icons
+alias lsp='ls -lvAh --color | awk -F"\t" "{k=0; for(i=0;i<=8;i++) k+=((substr(\$1,i+2,1)~/[rwx]/)*2^(8-i)); if(k) printf \"%0o\t%s\n\", k, \$NF}"'  # Show file permissions
+
+##### System Utilities #####
+alias vt="~/.bin/versiontracker/app"  # Launch macOS Version Tracker
+alias rls="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user"  # Reset macOS Launch Services
+
+##### BIP39 Tool #####
+alias bip39="~/.bin/bip39/app"
+
+##### Network Functions #####
+fp() {
+    gateway=$(route -n get default | grep 'gateway' | awk '{print $2}')  # Get default gateway
+    target="${1:-$gateway}"  # Use user-provided IP or default to gateway
+    if [ -z "$target" ]; then
+        echo "Unable to find the default gateway."
+        return 1
+    fi
+    ping "$target" -i 0.1  # Ping target with 0.1s interval
+}
+
+##### Weather Information #####
+wx() {
+    curl -s "wttr.in/$1"  # Get weather for specified location
+}
+
+##### Audio Processing #####
+slice_audio() {
+  if [ $# -lt 3 ] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    echo "Usage: slice_audio <input> <start> <duration>"
+    echo "Example: slice_audio file.m4b 00:01:30 00:10:00"
+    echo "Formats: m4b, m4a, mp3, wav, ogg, flac, aac, aiff, opus, wma, alac, ac3, amr"
+    return 1
+  fi
+  infile="$1"; start="$2"; duration="$3"
+  ext="${infile##*.}"; base="${infile%.*}"
+  outfile="${base}_output.${ext}"
+  ffmpeg -ss "$start" -i "$infile" -t "$duration" -c copy "$outfile"
+  echo "Created $outfile"
+}
+
+concat_audio() {
+  while getopts "i:o:" opt; do
+    case $opt in
+      i) input_list=$OPTARG ;;
+      o) output=$OPTARG ;;
+      *) return 1 ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
+  [[ -n $input_list && -n $output ]] || { 
+    echo "Usage: concat_audio -i file1,file2 -o output" >&2
+    return 1
+  }
+
+  listfile="concat_list.txt"
+  rm -f "$listfile"
+  IFS=',' read -rA files <<< "$input_list"
+  for f in "${files[@]}"; do
+    printf "file '%s/%s'\n" "$(pwd)" "$f" >> "$listfile"
+  done
+
+  ffmpeg -f concat -safe 0 -i "$listfile" \
+    -map 0:a:0 -c:a copy \
+    -map_metadata 0 -map_chapters 0 \
+    -movflags +faststart \
+    "$output"
+
+  rm -f "$listfile"
+}
+

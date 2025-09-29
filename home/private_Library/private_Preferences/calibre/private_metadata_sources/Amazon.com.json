@@ -1,0 +1,9 @@
+{
+  "domain": "com",
+  "ignore_fields": [
+    "comments"
+  ],
+  "prefer_kindle_edition": false,
+  "server": "auto",
+  "use_mobi_asin": false
+}

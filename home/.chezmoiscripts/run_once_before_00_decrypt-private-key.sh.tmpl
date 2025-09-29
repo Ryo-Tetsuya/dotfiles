@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ ! -f "${HOME}/.config/chezmoi/key.txt" ]; then
+    mkdir -p "${HOME}/.config/chezmoi"
+    echo "Decrypting age key file..."
+    while true; do
+        chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
+        if [ $? -eq 0 ]; then
+            break
+        else
+            echo "Incorrect passphrase. Please re-enter the passphrase."
+        fi
+    done
+    chmod 600 "${HOME}/.config/chezmoi/key.txt"
+fi

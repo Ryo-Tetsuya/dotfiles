@@ -1,0 +1,85 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+LIME='\033[0;32m'
+RESET_COLOR='\033[0m'
+
+# Ensure that the environment is correctly sourced
+zsh -i -c "
+    # Ensure that the environment is correctly sourced
+    if [ -f \"$HOME/.zshenv\" ] || [ -f \"$HOME/.zshrc\" ]; then
+        # Source ~/.zshenv if it exists
+        [ -f \"$HOME/.zshenv\" ] && echo -e \"\${LIME}Sourcing\${RESET_COLOR} ~/.zshenv to update environment variables\" && source \"$HOME/.zshenv\"
+
+        # Source ~/.zshrc if it exists
+        [ -f \"$HOME/.zshrc\" ] && echo -e \"\${LIME}Sourcing\${RESET_COLOR} ~/.zshrc for interactive shell configurations\" && source \"$HOME/.zshrc\"
+    fi
+"
+osascript -e 'tell application "System Events" to keystroke "r" using {control down, shift down}'
+
+# Archive File Associations
+duti -s com.aone.keka public.archive all 2>/dev/null
+duti -s com.aone.keka public.gzip-archive all 2>/dev/null
+duti -s com.aone.keka public.rar-archive all 2>/dev/null
+duti -s com.aone.keka public.7z-archive all 2>/dev/null
+duti -s com.aone.keka public.tar-archive all 2>/dev/null
+duti -s com.aone.keka public.zip all 2>/dev/null
+
+# PDF File Associations
+duti -s com.readdle.PDFExpert-Mac .pdf all 2>/dev/null
+
+# Video File Associations
+duti -s com.movist.MovistPro .mkv all 2>/dev/null
+duti -s com.movist.MovistPro .mov all 2>/dev/null
+duti -s com.movist.MovistPro .mp4 all 2>/dev/null
+# Apply patches to macOS applications
+
+# Append entries /etc/hosts
+echo -e "127.0.0.1 daisydiskapp.com\n127.0.0.1 api.devontechnologies.com" | sudo tee -a /etc/hosts >/dev/null
+sudo killall -HUP mDNSResponder
+
+function patch_appcleaner() { 
+    local bin=$(plutil -extract CFBundleExecutable raw "$1/Contents/Info.plist")
+    xxd -p -c 0 "$1/Contents/MacOS/$bin" - | \
+    sed "s/c01640f9df7e02a9/0000fcd2df0202a9/; \
+         s/c0c24039dfc20039/20008052c0c20039/; \
+         s/280f57c00f114320/280f57c0c6432fe0/; \
+         s/0fb64330c6433000/0fb64330c6433001/" | \
+    xxd -r -p -c 0 - "$1/Contents/MacOS/$bin"
+    codesign -f -s - "$1" && xattr -c -r "$1"
+    echo -e "\e[92m✔ All done, enjoy\!\e[0m"
+}; patch_appcleaner "/Applications/App Cleaner 8.app"
+
+function patch_transmit() {
+    xxd -p -c 0 "$1/Contents/MacOS/Transmit" - | \
+	sed "s/ff4301d1f85f01a9f65702a9f44f03a9fd7b04a9fd030191f30300aae00302aa71c80494681000d0140542/c0035fd6f85f01a9f65702a9f44f03a9fd7b04a9fd030191f30300aae00302aa71c80494681000d0140542/; \
+	     s/f657bda9f44f01a9fd7b02a9fd830091b50e00b0b5/e0e18452c0035fd6fd7b02a9fd830091b50e00b0b5/;" | \
+    xxd -r -p -c 0 - "$1/Contents/MacOS/Transmit"
+    codesign -f -s - "$1" && xattr -c -r "$1"
+	echo -e "${LIME}OK!${RESET_COLOR}"
+}; patch_transmit "/Applications/Transmit.app"
+
+# Patch Bloom
+defaults write com.asiafu.Bloom BloomLicenseKey -string "XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX"
+
+# Patch DaisyDisk
+mkdir -p "$HOME/Library/Application Support/DaisyDisk" || { echo "Failed to create DaisyDisk folder"; exit 1; }
+rm -rf "$HOME/Library/Application Support/DaisyDisk/BlackList.plist"
+defaults write "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk" License_CustomerName "A.L.I.C.E"
+defaults write "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk" License_RegistrationKey "DH7X8TKY-Q5E5T7QP-QNAKRRCM-S8MQPKHC-W2GMGPN8"
+mv "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk.plist" "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk"
+defaults write com.daisydiskapp.DaisyDiskStandAlone SUEnableAutomaticChecks -boolean NO
+defaults write com.daisydiskapp.DaisyDiskStandAlone MajorUpgrader_suppressUpgrades -boolean YES
+defaults write com.daisydiskapp.DaisyDiskStandAlone Application_isFirstLaunch -boolean NO
+defaults write com.daisydiskapp.DaisyDiskStandAlone SUSendProfileInfo -boolean NO
+
+
+# Add Vallum license key to the license file.
+sudo mkdir -p "/Library/Application Support/Vallum/Vallum 5/License"
+echo "A.L.I.C.E#318163315983723#%" | sudo tee "/Library/Application Support/Vallum/Vallum 5/License/license" > /dev/null
+sudo curl -L https://github.com/Ryo-Tetsuya/assets/raw/refs/heads/main/cfgs/vallum/vallum.conf -o "/Library/Application Support/Vallum/Vallum 5/vallum.conf"
+
+# Clear all extended attributes (including the macOS quarantine flag) for all custom app binary
+find "$HOME/.bin" -type f -name app -exec xattr -cr {} +
+
+{{ end -}}

@@ -1,0 +1,70 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+# Create organized directories for incoming files, anki decks, git and torrent watch folder
+mkdir -p ~/Documents/{_Incoming,Anki,Git} ~/Downloads/_Watch
+
+if [[ ! -d ~/Pictures/Wallpapers ]]; then
+   mkdir -p ~/Pictures/Wallpapers
+fi
+
+curl -o ~/Pictures/Wallpapers/blobs.webp -L "https://github.com/Ryo-Tetsuya/assets/raw/refs/heads/main/wallpapers/blobs.webp"
+
+if [ ! -f ~/Pictures/Wallpapers/blobs.webp]; then
+    echo "Error: Downloaded file not found"
+    exit 1
+fi
+
+osascript -e 'tell application "System Events" to set picture of every desktop to ("~/Pictures/Wallpapers/blobs.webp" as POSIX file)'
+
+echo "Checking for Xcode CLI..."
+if pkgutil --pkg-info com.apple.pkg.CLTools_Executables >/dev/null 2>&1; then
+    echo "Xcode CLI tools OK"
+else
+    echo "Xcode CLI tools not found. Installing them..."
+    touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    xcodeCommandLineTools=$(/usr/sbin/softwareupdate --list 2>&1 | \
+        /usr/bin/awk -F: '/Label: Command Line Tools for Xcode/ {print $NF}' | \
+        /usr/bin/sed 's/^ *//' | \
+        /usr/bin/tail -1)
+    softwareupdate -i "$xcodeCommandLineTools" --agree-to-license
+fi
+
+# Temporarily set timestamp_timeout to 60 minutes (60)
+echo "Updating the sudo timestamp_timeout to 60 minutes. It will revert back after brewfile installation."
+current_timeout=$(sudo grep -E '^Defaults[[:space:]]+timestamp_timeout=' /etc/sudoers || echo "")
+if [ -n "$current_timeout" ]; then
+    sudo sed -i '' 's/^Defaults[[:space:]]\+timestamp_timeout=.*/Defaults timestamp_timeout=60/' /etc/sudoers
+else
+    echo 'Defaults timestamp_timeout=60' | sudo tee -a /etc/sudoers
+fi
+
+echo "Checking for Homebrew..."
+if [[ $(command -v brew) ]]; then
+    echo "Homebrew already installed"
+    brew -v
+else
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
+    eval $(/opt/homebrew/bin/brew shellenv)
+fi
+
+brew bundle install --file {{ joinPath .chezmoi.sourceDir "packages_mac" }}
+
+# Restore the original timestamp_timeout value
+echo "Restoring the original sudo timestamp_timeout value..."
+if [ -n "$current_timeout" ]; then
+    sudo sed -i '' "s/^Defaults[[:space:]]\+timestamp_timeout=.*/$current_timeout/" /etc/sudoers
+else
+    sudo sed -i '' '/^Defaults[[:space:]]\+timestamp_timeout=/d' /etc/sudoers
+fi
+
+echo "Cloning Powerlevel10k theme..."
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.powerlevel10k
+
+echo "Installing Rust via rustup-init..."
+rustup-init -y
+{{ end -}}

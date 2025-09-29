@@ -1,0 +1,26 @@
+##### Terminal Configuration #####
+export TERM="xterm-256color"
+
+##### PATH Modifications #####
+export PATH="/opt/homebrew/Cellar/bash/5.2.15/bin:$PATH"  # Use specific Bash version  
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"  # Use GNU core utilities  
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"  # Use GNU sed  
+export PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"  # Use GNU grep  
+export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"  # Add Qt5 binaries  
+
+##### Compilation Flags #####
+export CFLAGS="-I/opt/homebrew/include"  # Set include path for C headers  
+export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib"  # Set library path for Qt5  
+export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include"  # Set include path for Qt5 headers  
+
+##### Package Configuration #####
+export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig"  # Set package path for Qt5  
+
+##### Python Configuration #####
+export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto"  # Enable optimizations  
+
+##### Volta Configuration #####
+export PATH="$HOME/.volta/bin:$PATH"  # Add Volta binary directory  
+
+##### Cargo Configuration #####
+. "$HOME/.cargo/env"  # Initialize Cargo environment for Rust  

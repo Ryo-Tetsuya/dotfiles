@@ -1,0 +1,53 @@
+{
+  "geometry-of-choose-open-with-program-dialog-geometry": {
+    "frame_geometry": {
+      "height": 528,
+      "width": 600,
+      "x": 2366,
+      "y": 225
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 500,
+      "width": 600,
+      "x": 2366,
+      "y": 253
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 500,
+      "width": 600,
+      "x": 2366,
+      "y": 253
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAk+AAAA4QAAC5UAAALwAAAJPgAAAP0AAAuVAAAC8AAAAAEAAAAAB4AAAAk+AAAA/QAAC5UAAALw"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920,
+        "x": 1728,
+        "y": 0
+      },
+      "index_in_screens_list": 1,
+      "manufacturer": "",
+      "model": "",
+      "name": "DELL U2723QE",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  }
+}

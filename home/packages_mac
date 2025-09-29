@@ -1,0 +1,198 @@
+# Options
+cask_args appdir: '/Applications', require_sha: true
+
+# Taps
+tap 'homebrew-ffmpeg/ffmpeg'
+
+################################################################
+# CLI                                                          #
+################################################################
+
+# Command-line tools
+brew 'age'                                                     # Simple, modern, secure file encryption
+brew 'bash'                                                    # Bourne-Again Shell, a UNIX command interpreter
+brew 'bat'                                                     # Syntax highlighting for file viewing
+brew 'coreutils'                                               # GNU core utilities
+brew 'curl'                                                    # Get a file from an HTTP, HTTPS or FTP server
+brew 'eza'                                                     # A modern, maintained replacement for 'ls,' built on 'exa.'
+brew 'exiftool'                                                # Read/write/modify Exif data
+brew 'fzf'                                                     # Fuzzy finder for the command-line
+brew 'git'                                                     # Version control
+brew 'git-lfs'                                                 # Git Large File Storage for large files
+brew 'gmp'                                                     # GNU Multiple Precision Arithmetic Library
+brew 'gnu-sed'                                                 # GNU 'sed' (stream editor)
+brew 'grep'                                                    # GNU 'grep' for powerful text pattern matching
+brew 'jq'                                                      # JSON parser/query tool
+brew 'mas'                                                     # Mac App Store command-line interface
+brew 'openssh'                                                 # OpenSSH for secure remote access
+brew 'pigz'                                                    # Parallel gzip for faster file compression
+brew 'procs'                                                   # Modern replacement for ps written by Rust
+brew 'screen'                                                  # Terminal multiplexing
+brew 'thefuck'                                                 # Auto-correct mistyped commands
+brew 'tldr'                                                    # Community-driven man pages
+brew 'tokei'                                                   # Code line counter (improves 'cloc')
+brew 'tree'                                                    # Directory listings as a tree structure
+brew 'zoxide'                                                  # A faster way to navigate your filesystem
+
+# Monitoring and performance tools
+brew 'bandwhich'                                               # Terminal bandwidth utilization tool
+brew 'btop'                                                    # Resource monitor
+brew 'ctop'                                                    # Container metrics and monitoring
+brew 'doggo'                                                   # Command-line DNS Client for Humans
+brew 'dua-cli'                                                 # Disk usage analyzer (improves 'du')
+brew 'duf'                                                     # Disk usage utility with more features
+brew 'gping'                                                   # Interactive ping tool with a graph
+ 
+# Zsh plugins
+brew 'zsh-autosuggestions'                                     # Zsh autosuggestions
+brew 'zsh-syntax-highlighting'                                 # Zsh syntax highlighting
+
+# Productivity command-line apps
+brew 'rclone'                                                  # Manage cloud storage
+
+# Useful command-line tools
+brew 'neofetch'                                                # Display system and distro info
+brew 'pv'                                                      # Pipe viewer with animation options
+
+################################################################
+# Development Tools                                            #
+################################################################
+
+# Build & Dependency Management
+brew 'cmake'                                                   # Cross-platform make
+brew 'uv'                                                      # Extremely fast Python package installer and resolver, written in Rust
+
+# Code Editors & Development Environments
+cask 'boop'                                                    # Text transformation tool
+cask 'fork'                                                    # Git client
+cask 'visual-studio-code'                                      # Code editor
+
+# Compilers & Programming Language Toolchains
+brew 'gcc'                                                     # GNU C++ compilers
+brew 'go'                                                      # Go Lang compiler
+brew 'rustup'                                                  # Rust toolchain installer
+brew 'volta'                                                   # JavaScript toolchain manager for reproducible environments
+
+# Performance & Benchmarking
+brew 'wrk'                                                     # HTTP benchmarking tool
+brew 'scc'                                                     # Fast and accurate code counter with complexity and COCOMO estimates
+
+# Security & Encryption Tools
+brew 'lynis'                                                   # System security scanning
+brew 'openssl'                                                 # Cryptography and SSL/TLS Toolkit
+cask 'suspicious-package', args: { require_sha: false }        # Inspect macOS packages
+
+# System Utilities for Development
+brew 'terminal-notifier'                                       # Trigger macOS notifications
+brew 'ttygif'                                                  # Generate GIF from terminal output
+brew 'watchman'                                                # File system watcher for development servers
+
+# UI & Application Frameworks
+brew 'qt'                                                      # Cross-platform application and UI framework
+brew 'qt@5'                                                    # Cross-platform application and UI framework
+brew 'python-tk'                                               # Python bindings for Tcl/Tk
+
+# Version Control & Collaboration
+brew 'gh'                                                      # GitHub interaction
+brew 'git-extras'                                              # Extra Git commands
+
+
+
+################################################################
+# Applications                                                 #
+################################################################
+
+# Communication
+cask 'discord'                                                 # Voice and text chat software
+cask 'telegram'                                                # Messaging app with a focus on speed and security
+cask 'wechat', args: { require_sha: false }                    # Chinese social media app
+cask 'whatsapp'                                                # Native desktop client for WhatsApp
+
+# Content Download and Management Tools
+cask 'qbittorrent'                                             # Peer-to-peer BitTorrent client
+brew 'yt-dlp'                                                  # Feature-rich command-line audio/video downloader
+
+# Cryptocurrency and Investment Tools
+brew 'cointop'                                                 # Interactive terminal based UI application for tracking cryptocurrencies
+cask 'sparrow'                                                 # Bitcoin wallet application
+cask 'trezor-suite'                                            # Companion app for the Trezor hardware wallet
+
+# E-Book and Reading
+cask 'calibre'                                                 # E-books management software
+brew 'pandoc'                                                  # Swiss-army knife of markup format conversion
+cask 'fbreader'                                                # Epub reader
+
+# Entertainment
+cask 'movist-pro'                                              # Media player
+
+# File Management Tools
+cask 'a-better-finder-rename', args: { require_sha: false }    # File renaming utility
+cask 'daisydisk', args: { require_sha: false }                 # Disk space visualizer
+cask 'find-any-file', args: { require_sha: false }             # File search utility
+cask 'keka'                                                    # File archiver and compression tool
+cask 'metaimage'                                               # Editor to read, write and edit images metadata
+
+# Multimedia Tools
+brew 'homebrew-ffmpeg/ffmpeg/ffmpeg'                           # Play, record, convert, and stream audio and video
+
+# Network and Security
+cask 'gpg-suite-no-mail'                                       # Tools to protect your files
+
+# Productivity
+cask 'anki'                                                    # Memory training application
+cask 'bloom'                                                   # File manager
+cask 'devonthink'                                              # Collect, organise, edit and annotate documents
+cask 'espanso'                                                 # Live text expander (cross-platform)
+cask 'hovrly'                                                  # Display and convert timezones time in different cities
+cask 'keepingyouawake'                                         # Tool to prevent the system from going into sleep mode
+cask 'maccy'                                                   # Clipboard manager (cross-platform)
+cask 'numi'                                                    # Calculator app
+cask 'octarine'                                                # Markdown-based note-taking app
+cask 'swish'                                                   # Control windows and applications right from your trackpad
+cask 'trex'                                                    # Easy-to-use text extraction tool
+
+# System monitoring and utilities
+cask 'apparency', args: { require_sha: false }                 # Inspect application bundles
+cask 'app-cleaner', args: { require_sha: false }               # Application uninstaller
+cask 'betterdisplay'                                           # Display management tool
+brew 'duti'                                                    # Select default apps for documents and URL schemes on macOS
+cask 'hazeover', args: { require_sha: false }                  # Windows manager and desktop organiser
+cask 'jordanbaird-ice'                                         # Menu bar manager
+brew 'm-cli'                                                   # Swiss Army Knife for macOS
+cask 'pictogram'                                               # Customize and maintain app icons
+cask 'sloth'                                                   # Displays all open files and sockets in use by all running processes
+cask 'soundsource', args: { require_sha: false }               # Sound and audio controller
+brew 'wakeonlan'                                               # Sends magic packets to wake up network-devices
+cask 'wezterm'                                                 # GPU-accelerated cross-platform terminal emulator and multiplexer
+
+# Web browsers
+cask 'floorp'                                                  #  Floorp browser
+
+################################################################
+# Others                                                       #
+################################################################
+
+# Fonts
+cask 'font-hack-nerd-font'
+cask 'font-noto-sans-cjk'
+
+################################################################
+# MAS Packages                                                 #
+################################################################
+
+# Development
+mas 'Xcode', id: 497799835
+
+# Entertainment
+# mas 'Infuse', id: 1136220934
+
+# News
+# mas 'News Explorer', id: 1032670789
+
+# Productivity
+# mas 'APTV', id: 1630403500
+# mas 'Goodnotes', id: 1444383602
+
+# Reference
+mas 'Lookupper', id: 1667225994
+
