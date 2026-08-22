@@ -1,0 +1,215 @@
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: SHELL INITIALIZATION & COMPLETION
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+typeset -U fpath
+if [[ -d /opt/homebrew/share/zsh/site-functions ]]; then
+  fpath=(/opt/homebrew/share/zsh/site-functions "${fpath[@]}")
+fi
+zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+autoload -Uz compinit
+if mkdir -p "${zcompdump:h}"; then
+  compinit -d "$zcompdump"                                                                                                                    # Load completion with a stable cache path
+else
+  compinit                                                                                                                                    # Fall back to zsh's default completion cache
+fi
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'                                                                                        # Case-insensitive matching
+zstyle ':completion:*' menu select                                                                                                            # Select completion candidates interactively
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: THEME & PROMPT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: BINARY INTEGRATIONS & PERFORMANCE WRAPPERS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+if command -v atuin >/dev/null 2>&1; then
+  eval "$(atuin init zsh)"                                                                                                                    # Rust-based magical shell history
+fi
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"                                                                                                                   # Smart directory jump (cd replacement)
+fi
+
+if command -v fd >/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='fd --type file --hidden --exclude .git --color=always'
+  export FZF_ALT_C_COMMAND='fd --type directory --hidden --exclude .git'
+else
+  export FZF_DEFAULT_COMMAND='find . -type f -not -path "*/.git/*"'
+  export FZF_ALT_C_COMMAND='find . -type d -not -path "*/.git/*"'
+fi
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--ansi'
+
+# External completions and syntax highlighting
+if [[ -f /opt/homebrew/opt/fzf/shell/completion.zsh ]]; then
+  source /opt/homebrew/opt/fzf/shell/completion.zsh
+fi
+if [[ -f /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]]; then
+  source /opt/homebrew/opt/fzf/shell/key-bindings.zsh
+fi
+if [[ -f /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: PERSISTENCE & HISTORY SETTINGS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HISTSIZE=5000                                                                                                                                 # Memory-resident history limit
+SAVEHIST=5000                                                                                                                                 # Disk-level history limit
+zsh_history_dir="${XDG_STATE_HOME:-$HOME/.local/state}/zsh"
+if mkdir -p "$zsh_history_dir"; then
+  HISTFILE="$zsh_history_dir/history"                                                                                                         # History file path
+else
+  HISTFILE=~/.zsh_history                                                                                                                     # Fall back to the legacy history path
+fi
+
+setopt appendhistory                                                                                                                          # Append to file, don't overwrite
+setopt sharehistory                                                                                                                           # Live history sharing across sessions
+setopt extended_history                                                                                                                       # Save timestamps and durations
+setopt hist_ignore_all_dups                                                                                                                   # Remove all duplicate history entries
+setopt hist_save_no_dups                                                                                                                      # Do not write duplicates to disk
+setopt hist_find_no_dups                                                                                                                      # Ignore duplicates in history search
+setopt hist_reduce_blanks                                                                                                                     # Collapse extra whitespace before saving
+setopt auto_cd                                                                                                                                # Enter directories without typing cd
+setopt interactive_comments                                                                                                                   # Allow comments in interactive commands
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: ALIASES - CORE & FILE MANAGEMENT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Modern Rust-based Listing (eza)
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --long --all --git --header --octal-permissions --icons=auto --group-directories-first --color=auto --no-quotes --time-style=long-iso' # Detailed listing with Git status and numeric Unix modes
+fi
+
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat --paging=never'                                                                                                              # Syntax-highlighted cat replacement
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"                                                                                           # Use bat as the manual pager
+fi
+
+# Navigation and Search
+if command -v fd >/dev/null 2>&1; then
+  alias ff='fd --type file'                                                                                                                   # Find files by name
+  alias fdir='fd --type directory'                                                                                                            # Find directories by name
+else
+  alias ff='find . -type f -name'                                                                                                             # Find files by name
+  alias fdir='find . -type d -name'                                                                                                           # Find directories by name
+fi
+if command -v jaq >/dev/null 2>&1; then
+  alias jq='jaq'                                                                                                                              # Keep jq muscle memory after replacing jq with jaq
+fi
+if [[ -x /opt/homebrew/opt/curl/bin/curl ]]; then
+  alias curl='/opt/homebrew/opt/curl/bin/curl'                                                                                                # Use Homebrew-specific curl
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: ALIASES - SYSTEM & SPECIALIZED TOOLS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+alias bip39="~/.bin/bip39/app"                                                                                                                # BIP39 Tool
+alias hopper='~/.bin/inject "/Applications/Hopper Disassembler.app/Contents/MacOS/Hopper Disassembler" ~/.bin/hopper/libHopper.dylib -spawn'  # Hopper Disassembler
+alias rls="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user"
+if command -v trip >/dev/null 2>&1; then
+  alias trace='trip'                                                                                                                          # Network path diagnostics via Trippy
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: FUNCTIONS - NETWORK DIAGNOSTICS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+fp() {
+    local gateway target
+    gateway=$(route -n get default | grep 'gateway' | awk '{print $2}')
+    target="${1:-$gateway}"
+
+    if [[ -z "$target" ]]; then
+        echo "Error: Unable to identify default gateway."
+        return 1
+    fi
+    ping "$target" -i 0.1
+}
+
+if command -v broot >/dev/null 2>&1; then
+  eval "$(broot --print-shell-function zsh)"                                                                                                  # Official br wrapper with cd support
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: FUNCTIONS - AUDIO ARCHITECTURE (FFMPEG)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+wx() {
+  curl -s "wttr.in/$1"                                                                                                                        # Get weather for specified location
+}
+
+# Slice audio tracks
+slice_audio() {
+  local infile start duration ext base outfile
+
+  if [[ $# -lt 3 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    echo "Usage: slice_audio <input> <start> <duration>"
+    echo "Example: slice_audio file.m4b 00:01:30 00:10:00"
+    echo "Formats: m4b, m4a, mp3, wav, ogg, flac, aac, aiff, opus, wma, alac, ac3, amr"
+    return 1
+  fi
+
+  if ! command -v ffmpeg >/dev/null 2>&1; then
+    echo "Error: ffmpeg is not installed." >&2
+    return 1
+  fi
+
+  infile="$1"; start="$2"; duration="$3"
+  ext="${infile##*.}"; base="${infile%.*}"
+  outfile="${base}_output.${ext}"
+
+  if ffmpeg -ss "$start" -i "$infile" -t "$duration" -c copy "$outfile"; then
+    echo "Created $outfile"
+  fi
+}
+
+# Concatenate multiple audio files
+concat_audio() {
+  local input_list output opt listfile f status
+  local -a files
+  local OPTIND=1
+
+  while getopts "i:o:" opt; do
+    case $opt in
+      i) input_list=$OPTARG ;;
+      o) output=$OPTARG ;;
+      *) return 1 ;;
+    esac
+  done
+  shift $((OPTIND - 1))
+
+  [[ -n $input_list && -n $output ]] || {
+    echo "Usage: concat_audio -i file1,file2 -o output" >&2
+    return 1
+  }
+
+  if ! command -v ffmpeg >/dev/null 2>&1; then
+    echo "Error: ffmpeg is not installed." >&2
+    return 1
+  fi
+
+  listfile="$(mktemp "${TMPDIR:-/tmp}/concat_audio.XXXXXX")" || return
+  IFS=',' read -rA files <<< "$input_list"
+  for f in "${files[@]}"; do
+    printf "file '%s/%s'\n" "$(pwd)" "$f" >> "$listfile"
+  done
+
+  ffmpeg -f concat -safe 0 -i "$listfile" \
+    -map 0:a:0 -c:a copy \
+    -map_metadata 0 -map_chapters 0 \
+    -movflags +faststart \
+    "$output"
+  status=$?
+
+  rm -f "$listfile"
+  return "$status"
+}
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ WARNING: FINAL PLUGIN
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# zsh-syntax-highlighting must be the last plugin sourced for it to work correctly.
+if [[ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi

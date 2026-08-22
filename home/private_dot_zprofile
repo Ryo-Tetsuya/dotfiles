@@ -1,0 +1,54 @@
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: HOMEBREW ENVIRONMENT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"   # Initialize Homebrew environment variables
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: TOOLCHAIN PATHS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+typeset -U path
+[[ -d /opt/homebrew/opt/qt/bin ]] && path=(/opt/homebrew/opt/qt/bin "${path[@]}") # Expose Qt 6 toolchain binaries
+export PATH
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: COMPILATION & LINKAGE FLAGS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+if [[ -d /opt/homebrew/include && " ${CFLAGS:-} " != *" -I/opt/homebrew/include "* ]]; then
+  export CFLAGS="-I/opt/homebrew/include${CFLAGS:+ $CFLAGS}" # Define global include path for C/C++ compilation
+fi
+
+if [[ -d /opt/homebrew/opt/qt ]]; then
+  if [[ " ${LDFLAGS:-} " != *" -L/opt/homebrew/opt/qt/lib "* ]]; then
+    export LDFLAGS="-L/opt/homebrew/opt/qt/lib${LDFLAGS:+ $LDFLAGS}" # Define linker search path for Qt 6 libraries
+  fi
+  if [[ " ${CPPFLAGS:-} " != *" -I/opt/homebrew/opt/qt/include "* ]]; then
+    export CPPFLAGS="-I/opt/homebrew/opt/qt/include${CPPFLAGS:+ $CPPFLAGS}" # Define preprocessor include path for Qt 6 headers
+  fi
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: PKG-CONFIG INTEGRATION
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+if [[ -d /opt/homebrew/opt/qt/lib/pkgconfig && ":${PKG_CONFIG_PATH:-}:" != *":/opt/homebrew/opt/qt/lib/pkgconfig:"* ]]; then
+  export PKG_CONFIG_PATH="/opt/homebrew/opt/qt/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}" # Define pkg-config search path for Qt 6 metadata
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: PYTHON BUILD CONFIGURATION
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+export PYTHON_CONFIGURE_OPTS="--enable-optimizations --with-lto" # Enable PGO and LTO during CPython builds
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: RUST TOOLCHAIN INITIALIZATION
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+if [[ -r "$HOME/.cargo/env" ]]; then
+  . "$HOME/.cargo/env"                         # Initialize Cargo environment variables and Rust toolchain
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: CLI COLOR OUTPUT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+export CLICOLOR=1                             # Enable colorized output where supported
+export LSCOLORS="gxBxhxDxfxhxhxhxhxcxcx"      # Define BSD ls color profile

@@ -1,0 +1,390 @@
+{
+  "auto_link_stylesheets": true,
+  "check-book-splitter-state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAEAAAACAAAARgAAAEYA/////wEAAAABAA=="
+  },
+  "find-widget-state": {
+    "case_sensitive": false,
+    "direction": "down",
+    "dot_all": false,
+    "mode": "normal",
+    "where": "current",
+    "wrap": true
+  },
+  "geometry-of-choose-file-name-geometry": {
+    "frame_geometry": {
+      "height": 126,
+      "width": 214,
+      "x": 737,
+      "y": 476
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 98,
+      "width": 214,
+      "x": 737,
+      "y": 504
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 98,
+      "width": 214,
+      "x": 737,
+      "y": 504
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAALhAAAB3AAAA7YAAAJZAAAC4QAAAfgAAAO2AAACWQAAAAAAAAAABsAAAALhAAAB+AAAA7YAAAJZ"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "Built-in Retina Display",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-insert-hyperlink-geometry": {
+    "frame_geometry": {
+      "height": 628,
+      "width": 800,
+      "x": 454,
+      "y": 237
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 600,
+      "width": 800,
+      "x": 454,
+      "y": 265
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 600,
+      "width": 800,
+      "x": 454,
+      "y": 265
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAHGAAAA7QAABOUAAANgAAABxgAAAQkAAATlAAADYAAAAAAAAAAABsAAAAHGAAABCQAABOUAAANg"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "Built-in Retina Display",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-insert-image-dialog-geometry": {
+    "frame_geometry": {
+      "height": 628,
+      "width": 800,
+      "x": 2288,
+      "y": 132
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 600,
+      "width": 800,
+      "x": 2288,
+      "y": 160
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 600,
+      "width": 800,
+      "x": 2288,
+      "y": 160
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAjwAAAAhAAADA8AAAL3AAAI8AAAAKAAAAwPAAAC9wAAAAEAAAAAB4AAAAjwAAAAoAAADA8AAAL3"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920,
+        "x": 1728,
+        "y": 0
+      },
+      "index_in_screens_list": 1,
+      "manufacturer": "",
+      "model": "",
+      "name": "DELL U2723QE",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-main_window_geometry": {
+    "frame_geometry": {
+      "height": 1055,
+      "width": 1728,
+      "x": 1817,
+      "y": 76
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 1027,
+      "width": 1728,
+      "x": 1817,
+      "y": 104
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 1027,
+      "width": 1728,
+      "x": 1817,
+      "y": 104
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAcZAAAATAAADdgAAARqAAAHGQAAAGgAAA3YAAAEagAAAAEAAAAAB4AAAAcZAAAAaAAADdgAAARq"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920,
+        "x": 1728,
+        "y": 0
+      },
+      "index_in_screens_list": 1,
+      "manufacturer": "",
+      "model": "",
+      "name": "DELL U2723QE",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-reports-dialog-geometry": {
+    "frame_geometry": {
+      "height": 628,
+      "width": 950,
+      "x": 271,
+      "y": 251
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 600,
+      "width": 950,
+      "x": 271,
+      "y": 279
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 600,
+      "width": 950,
+      "x": 271,
+      "y": 279
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAEPAAAA+wAABMQAAANuAAABDwAAARcAAATEAAADbgAAAAAAAAAABsAAAAEPAAABFwAABMQAAANu"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "Built-in Retina Display",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-toc_editor_window_geom": {
+    "frame_geometry": {
+      "height": 630,
+      "width": 950,
+      "x": 271,
+      "y": 249
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 630,
+      "width": 950,
+      "x": 271,
+      "y": 249
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 630,
+      "width": 950,
+      "x": 271,
+      "y": 249
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAEPAAAA+QAABMQAAANuAAABDwAAAPkAAATEAAADbgAAAAAAAAAABsAAAAEPAAAA+QAABMQAAANu"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "Built-in Retina Display",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "html-editor-state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAD9AAAAAAAAA3QAAAOGAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAMAAAAUAGEAYwB0AGkAbwBuAF8AYgBhAHIBAAAAAP////8AAAAAAAAAAAAAABIAdABvAG8AbABzAF8AYgBhAHIBAAAA3f////8AAAAAAAAAAAAAAB4AaAB0AG0AbABfAGYAbwByAG0AYQB0AF8AYgBhAHIBAAABv/////8AAAAAAAAAAA=="
+  },
+  "main_window_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAD9AAAABAAAAAAAAAEAAAADxvwCAAAABfsAAAAkAGYAaQBsAGUAcwAtAGIAcgBvAHcAcwBlAHIALQBkAG8AYwBrAQAAACcAAAPGAAAAWAD////7AAAAHgB0AG8AYwAtAHYAaQBlAHcAZQByAC0AZABvAGMAawAAAAAA/////wAAAFgA////+wAAACAAdABlAHgAdAAtAHMAZQBhAHIAYwBoAC0AZABvAGMAawAAAAAA/////wAAAHUA////+wAAACAAYwBoAGUAYwBrAHAAbwBpAG4AdABzAC0AZABvAGMAawAAAAAA/////wAAAIgA////+wAAACYAcwBhAHYAZQBkAC0AcwBlAGEAcgBjAGgAZQBzAC0AZABvAGMAawAAAAAA/////wAAAfcA////AAAAAQAAAkAAAAPG/AIAAAAC+wAAABgAcAByAGUAdgBpAGUAdwAtAGQAbwBjAGsBAAAAJwAAA8YAAABPAP////sAAAAaAGwAaQB2AGUALQBjAHMAcwAtAGQAbwBjAGsAAAAAAP////8AAABYAP///wAAAAIAAAAAAAAAAPwBAAAAAfsAAAAeAGMAaABlAGMAawAtAGIAbwBvAGsALQBkAG8AYwBrAAAAAAD/////AAAAkAD///8AAAADAAAAAAAAAAD8AQAAAAH7AAAAHABpAG4AcwBwAGUAYwB0AG8AcgAtAGQAbwBjAGsAAAAAAP////8AAAAzAP///wAAA3QAAAPGAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAMAAAAUAGcAbABvAGIAYQBsAC0AYgBhAHIBAAAAAP////8AAAAAAAAAAAAAABIAdABvAG8AbABzAC0AYgBhAHIBAAABJv////8AAAAAAAAAAAAAABYAcABsAHUAZwBpAG4AcwAtAGIAYQByAAAAAAD/////AAAAAAAAAAA="
+  },
+  "recent-books": [
+    "/Users/alice/Calibre Library/Riordan, Rick/The Tower of Nero (The Trials of Apollo Book 5) (2424)/The Tower of Nero (The Trials of Apollo Bo - Riordan, Rick.epub",
+    "/Volumes/Tesseract/calibre/Rick Riordan/Percy Jackson and the Olympians/[1] The Lightning Thief.epub",
+    "/Users/alice/Calibre Library/Gabriel Garcia Marquez/One Hundred Years of Solitude (664)/One Hundred Years of Solitude - Gabriel Garcia Marquez.epub",
+    "/Users/alice/Calibre Library/Ron Chernow/Titan_ The Life of John D. Rockefeller, Sr_ (546)/Titan_ The Life of John D. Rockefeller, Sr - Ron Chernow.epub",
+    "/Users/alice/Calibre Library/Suzanne Collins/The Hunger Games (146)/The Hunger Games - Suzanne Collins.epub",
+    "/Users/alice/Downloads/Alcatraz vs_ the Evil Librarians (Alcatraz Versus the Evil -- Brandon Sanderson [Sanderson, Brandon] -- Alcatraz vs_ the Evil Librarians, First -- 9780439925501 -- 09a7885d27635497a58adb22a8434dda -- Anna’s Archive.epub",
+    "/Users/alice/Calibre Library/Trudi Trueit/Explorer Academy_ The Dragon's Blood (Book 6) (3)/Explorer Academy_ The Dragon's Blood (Book - Trudi Trueit.epub",
+    "/Users/alice/Calibre Library/Trudi Trueit/Explorer Academy, The Nebula Secret_ The Nebula Secret (2)/Explorer Academy, The Nebula Secret_ The N - Trudi Trueit.epub"
+  ],
+  "reports-ui-state": {
+    "all-files-table": {
+      "__class__": "bytearray",
+      "__value__": "AAAA/wAAAAAAAAABAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAfQAAAAFAQEBAAAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAFAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAAAAAAAAAA=="
+    },
+    "chars-table": {
+      "__class__": "bytearray",
+      "__value__": "AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAEAQEBAAAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAEAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAAAAAAAAAA=="
+    },
+    "classes-sort-ascending": true,
+    "classes-sort-on-counts": true,
+    "css-sort-ascending": true,
+    "css-sort-on-counts": true,
+    "image-files-table": {
+      "__class__": "bytearray",
+      "__value__": "AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAEAQEBAAAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAEAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAAAAAAAAAA=="
+    },
+    "links-table": {
+      "__class__": "bytearray",
+      "__value__": "AAAA/wAAAAAAAAABAAAAAAAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAlgAAAAGAQEBAAAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAAGAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAAAAAAAAAA=="
+    },
+    "links-view-splitter": {
+      "__class__": "bytearray",
+      "__value__": "AAAA/wAAAAEAAAAC//////////8B/////wEAAAACAA=="
+    },
+    "report-page": -1,
+    "splitter-state": {
+      "__class__": "bytearray",
+      "__value__": "AAAA/wAAAAEAAAACAAABAAABKtQA/////wEAAAABAA=="
+    },
+    "words-table": {
+      "__class__": "bytearray",
+      "__value__": "AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAASwAAAADAQEBAAAAAAAAAAAAAAAAAGT/////AAAAhAAAAAAAAAADAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAAZAAAAAEAAAAAAAAD6AAAAAAAAAAAAA=="
+    }
+  },
+  "saved_seaches_state": {
+    "direction": "down",
+    "where": "current",
+    "wrap": true
+  },
+  "search-panel-visible": false,
+  "text_search_widget_state": {
+    "case_sensitive": false,
+    "dot_all": true,
+    "mode": "normal",
+    "where": "current"
+  },
+  "xml-editor-state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAD9AAAAAAAAA3QAAAODAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAIAAAAUAGEAYwB0AGkAbwBuAF8AYgBhAHIBAAAAAP////8AAAAAAAAAAAAAABIAdABvAG8AbABzAF8AYgBhAHIBAAAA3f////8AAAAAAAAAAA=="
+  }
+}

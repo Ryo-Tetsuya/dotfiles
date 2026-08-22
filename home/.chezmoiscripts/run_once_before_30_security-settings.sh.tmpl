@@ -1,0 +1,155 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/usr/bin/env zsh
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ APPLY SYSTEM-WIDE SECURITY SETTINGS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# This script configures security-focused settings for macOS. It should be run only once.
+# It is idempotent and can be re-run without issue.
+
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# Boilerplate and Functions
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+# Record start time
+start_time=$(date +%s)
+
+# Get params
+params="$params $*"
+
+# Color variables
+PRIMARY_COLOR='\033[0;32m'
+ACCENT_COLOR='\033[0;34m'
+INFO_COLOR='\033[1;33m'
+INFO_COLOR_U='\033[1;37m'
+SUCCESS_COLOR='\033[0;32m'
+WARN_1='\033[1;31m'
+WARN_2='\033[0;31m'
+RESET_COLOR='\033[0m'
+
+# Current and total tasks, used for progress updates
+current_event=0
+total_events=19
+
+# Helper function to log progress to console
+function log_msg () {
+  current_event=$(($current_event + 1))
+  if [[ ! $params == *"--silent"* ]]; then
+    if (("$current_event" < 10 )); then sp='0'; else sp=''; fi
+    echo -e "${PRIMARY_COLOR}[${sp}${current_event}/${total_events}] ${ACCENT_COLOR}${1}${INFO_COLOR_U}"
+  fi
+}
+
+# Helper function to log section to console
+function log_section () {
+  if [[ ! $params == *"--silent"* ]]; then
+    echo -e "\n${PRIMARY_COLOR}[INFO ] ${1}${INFO_COLOR}"
+  fi
+}
+
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# Execution Start
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+if [[ ! $params == *"--skip-intro"* ]]; then
+  echo -e "${PRIMARY_COLOR}Applying macOS Security Settings...${RESET_COLOR}"
+  echo -e "${WARN_1}IMPORTANT:${WARN_2} This script will make changes to your system."
+fi
+
+echo -e "${ACCENT_COLOR}\nElevated permissions are required."
+sudo -v
+if [ $? -ne 0 ]; then
+  echo -e "${ACCENT_COLOR}Unable to continue without sudo permissions. Exiting...${RESET_COLOR}"
+  exit 1
+fi
+
+# Quit System Settings before starting to ensure changes are not overwritten.
+osascript -e 'tell application "System Settings" to quit' &>/dev/null
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: TELEMETRY & ASSISTANT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Disabling Telemetry and Assistant Features..."
+
+log_msg "Disabling the Siri assistant"
+defaults write com.apple.assistant.support 'Assistant Enabled' -bool false                 # Disable Ask Siri
+
+log_msg "Disabling Siri voice feedback"
+defaults write com.apple.assistant.backedup 'Use device speaker for TTS' -int 3            # Disable Siri voice feedback
+
+log_msg "Suppressing the 'Enable Siri' prompt"
+defaults write com.apple.SetupAssistant 'DidSeeSiriSetup' -bool True                       # Suppress Siri setup prompt at login
+
+log_msg "Opting out of Siri data collection"
+defaults write com.apple.assistant.support 'Siri Data Sharing Opt-In Status' -int 2        # Opt-out of sharing Siri data for analytics
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: LOGIN & ACCOUNT SECURITY
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Login and Account Security..."
+
+log_msg "Destroying FileVault key on standby"
+sudo pmset -a destroyfvkeyonstandby 1                                                      # Destroy FileVault key on standby for secure sleep
+
+log_msg "Enforcing secure hibernation mode"
+sudo pmset -a hibernatemode 25                                                             # Use secure hibernation mode (for laptops)
+
+log_msg "Disabling Power Nap"
+sudo pmset -a powernap 0                                                                   # Disable Power Nap
+
+log_msg "Disabling standby mode"
+sudo pmset -a standby 0                                                                    # Disable standby mode
+
+log_msg "Disabling standby delay"
+sudo pmset -a standbydelay 0                                                               # Disable standby delay
+
+log_msg "Disabling auto power off"
+sudo pmset -a autopoweroff 0                                                               # Disable auto power off
+
+log_msg "Requiring password immediately after sleep"
+sudo defaults write /Library/Preferences/com.apple.screensaver askForPassword -int 1       # Require password to exit screen saver
+
+log_msg "Setting screen saver password delay to 0"
+sudo defaults write /Library/Preferences/com.apple.screensaver askForPasswordDelay -int 0  # Set lock delay after screen saver starts
+
+log_msg "Disabling guest user login from login screen"
+sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool NO       # Disable guest account from login screen
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: NETWORK SERVICES & CONNECTIONS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Hardening Network Services..."
+
+log_msg "Disabling remote login and SSH access"
+echo 'yes' | sudo systemsetup -setremotelogin off                                          # Disable incoming SSH and SFTP connections
+
+log_msg "Disabling the insecure TFTP service"
+sudo launchctl disable 'system/com.apple.tftpd'                                            # Disable TFTP service
+
+log_msg "Disabling the captive portal assistant"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control.plist \
+  Active -bool false                                                                       # Prevent auto-launch of captive portal browser
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: PRINTER & SHARING PROTOCOLS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Disabling Printer and Sharing Protocols..."
+
+log_msg "Disabling local printer sharing"
+cupsctl --no-share-printers                                                                # Disable sharing of local printers
+
+log_msg "Disabling remote printing from any address"
+cupsctl --no-remote-any                                                                    # Disable printing from internet addresses
+
+log_msg "Disabling remote printer administration"
+cupsctl --no-remote-admin                                                                  # Disable remote printer administration
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ FINISH
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+echo -e "${PRIMARY_COLOR}\nFinishing...${RESET_COLOR}"
+elapsed_seconds=$(($(date +%s)-start_time))
+echo -e "${SUCCESS_COLOR}✔ ${current_event}/${total_events} security tasks were completed successfully${RESET_COLOR}"
+echo -e "${SUCCESS_COLOR}  Completed in ${elapsed_seconds} seconds${RESET_COLOR}"
+
+{{ end -}}

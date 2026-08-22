@@ -1,0 +1,16 @@
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: TERMINAL CAPABILITIES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+export TERM="${TERM:-xterm-256color}"                                # Default to 256-color support when TERM is unset
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: PATH PRECEDENCE & CORE TOOL OVERRIDES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+typeset -U path
+[[ -d /opt/homebrew/bin ]] && path=(/opt/homebrew/bin "${path[@]}")                                      # Expose Homebrew user binaries
+[[ -d /opt/homebrew/sbin ]] && path=(/opt/homebrew/sbin "${path[@]}")                                    # Expose Homebrew system binaries
+[[ -d /opt/homebrew/opt/bash/bin ]] && path=(/opt/homebrew/opt/bash/bin "${path[@]}")                    # Prefer Homebrew-managed Bash over system default
+[[ -d /opt/homebrew/opt/coreutils/libexec/gnubin ]] && path=(/opt/homebrew/opt/coreutils/libexec/gnubin "${path[@]}")  # Prefer GNU core utilities over BSD variants
+[[ -d /opt/homebrew/opt/grep/libexec/gnubin ]] && path=(/opt/homebrew/opt/grep/libexec/gnubin "${path[@]}")            # Prefer GNU grep over BSD grep
+[[ -d "$HOME/.volta/bin" ]] && path=("$HOME/.volta/bin" "${path[@]}")                                    # Add Volta-managed Node.js tooling to PATH
+export PATH

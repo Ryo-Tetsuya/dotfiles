@@ -1,0 +1,174 @@
+# Options & Global Configuration
+cask_args appdir: '/Applications'
+
+tap 'homebrew-ffmpeg/ffmpeg'
+tap 'achannarasappa/tap'
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: CORE SYSTEM
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'bash'                                                      # Bourne-Again SHell
+brew 'coreutils'                                                 # GNU File, Shell, and Text utilities
+brew 'curl'                                                      # Get a file from an HTTP, HTTPS or FTP server
+brew 'gh'                                                        # GitHub command-line tool
+brew 'git'                                                       # Distributed revision control system
+brew 'git-lfs'                                                   # Git extension for versioning large files
+brew 'mas'                                                       # Mac App Store command-line interface
+brew 'openssh'                                                   # OpenBSD freely-licensed SSH implementation
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: SECURITY & ANALYSIS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'age'                                                       # Simple, modern and secure file encryption tool
+brew 'gmp'                                                       # GNU multiple precision arithmetic library
+brew 'm-cli'                                                     # Swiss Army Knife for macOS
+brew 'openssl'                                                   # Cryptography and SSL/TLS Toolkit
+
+cask 'apparency'                                                 # The App That Opens Apps
+cask 'cloudflare-warp'                                           # DNS over HTTPS and WARP client for macOS
+cask 'gpg-suite-no-mail'                                         # Tools to protect your files
+cask 'sloth'                                                     # View all open files and sockets in use
+cask 'suspicious-package'                                        # An application for inspecting installer packages
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: DATA PROCESSING
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'exiftool'                                                  # Perl lib for reading and writing meta information
+brew 'jaq'                                                       # JQ clone focussed on correctness, speed, and simplicity
+brew 'pandoc'                                                    # Swiss-army knife of markup format conversion
+brew 'sd'                                                        # Intuitive find & replace CLI (sed alternative)
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: TOOLCHAINS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'cmake'                                                     # Cross-platform make
+brew 'ninja'                                                     # Small build system with a focus on speed
+brew 'gcc'                                                       # GNU compiler collection
+brew 'go'                                                        # Open source programming language to build software
+brew 'qt'                                                        # Cross-platform application and UI framework
+brew 'rustup'                                                    # The Rust toolchain installer
+brew 'uv'                                                        # Extremely fast Python package installer and resolver
+brew 'volta'                                                     # The Hassle-Free JavaScript Tool Manager
+brew 'gemini-cli'                                                # Interact with Google Gemini AI models from the command-line
+
+cask 'devtoys'                                                   # A Swiss Army knife for developers
+cask 'fork'                                                      # A fast and friendly git client for Mac and Windows
+cask 'wezterm'                                                   # A GPU-accelerated cross-platform terminal emulator
+cask 'zed'                                                       # A next-generation, collaborative code editor
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: CLI UTILITIES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'atuin'                                                     # Magical shell history
+brew 'bat'                                                       # Clone of cat(1) with syntax highlighting
+brew 'broot'                                                     # A new way to see and navigate directory trees
+brew 'dockutil'                                                  # Tool for managing dock items
+brew 'eza'                                                       # Modern, maintained replacement for ls
+brew 'fd'                                                        # Simple, fast and user-friendly alternative to find
+brew 'fastfetch'                                                 # Like neofetch, but much faster
+brew 'fzf'                                                       # Command-line fuzzy finder
+brew 'ripgrep'                                                   # Search tool like grep and The Silver Searcher
+brew 'starship'                                                  # Cross-shell prompt for astronauts
+brew 'tealdeer'                                                  # Very fast implementation of tldr in Rust
+brew 'zoxide'                                                    # A smarter cd command for your terminal
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: SYSTEM MONITORING & DIAGNOSTICS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'bandwhich'                                                 # Terminal bandwidth utilization tool
+brew 'btop'                                                      # Interactive resource monitor
+brew 'pigz'                                                      # Parallel implementation of gzip
+brew 'procs'                                                     # Modern replacement for ps written in Rust
+brew 'q'                                                         # Tiny command-line DNS client
+brew 'tokei'                                                     # Program that allows you to count your code, quickly
+brew 'trippy'                                                    # A network diagnostic tool
+brew 'dust'                                                      # A more intuitive version of du in rust
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: WORKSPACE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'rclone'                                                    # Rsync for cloud storage
+
+cask 'a-better-finder-rename'                                    # Batch file renamer
+cask 'busycal'                                                   # Calendar software focusing on flexibility and reliability
+cask 'hazel'                                                     # Automated organisation
+cask 'app-cleaner'                                               # Uninstall apps and delete leftovers
+cask 'betterdisplay'                                             # Display management tool
+cask 'bloom'                                                     # Multi-platform file manager
+cask 'codexbar'                                                  # Menu bar usage monitor for Codex and Claude
+cask 'daisydisk'                                                 # Disk space analyzer
+cask 'finetune'                                                  # Per-application volume mixer, equalizer, and audio router
+cask 'find-any-file'                                             # File search utility
+cask 'hazeover'                                                  # Focus on the current task by dimming background
+cask 'hovrly'                                                    # Timezone converter and menu bar clock
+cask 'keka'                                                      # File archiver
+cask 'pdf-expert'                                                # PDF reader, editor and annotator
+cask 'maccy'                                                     # Clipboard manager for macOS
+cask 'metaimage'                                                 # Editor for image metadata
+cask 'numi'                                                      # Calculator app
+cask 'octarine'                                                  # Markdown-based personal knowledge base
+cask 'pictogram'                                                 # Customize and maintain app icons
+cask 'swish'                                                     # Control windows with trackpad gestures
+cask 'thaw'                                                      # Menu bar manager
+cask 'tableplus'                                                 # Native GUI tool for relational databases
+cask 'transmit'                                                  # File transfer application
+cask 'typinator'                                                 # Tool to automate the insertion of frequently used text and graphics
+cask 'updatest'                                                  # Utility that shows the latest app updates
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: BROWSERS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+cask 'helium-browser'                                            # Chromium-based web browser
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: FINANCE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'achannarasappa/tap/ticker'                                 # Terminal stock watcher and stock position tracker
+
+cask 'sparrow'                                                   # Bitcoin wallet focusing on security and privacy
+cask 'trezor-suite'                                              # Security and management for Trezor hardware wallets
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: COMMUNICATIONS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+cask 'telegram'                                                  # Messaging app with a focus on speed and security
+cask 'wechat'                                                    # Free messaging and calling app
+cask 'whatsapp'                                                  # Native desktop client for WhatsApp
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: MEDIA
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew "homebrew-ffmpeg/ffmpeg/ffmpeg", args: ["with-fdk-aac"]     # Play, record, convert, and stream audio and video
+brew 'wakeonlan'                                                 # Sends magic packets to wake up network-devices
+brew 'yt-dlp'                                                    # Feature-rich command-line audio/video downloader
+
+cask 'movist-pro'                                                # Movie player based on QuickTime and FFmpeg
+cask 'qbittorrent'                                               # BitTorrent client
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: KNOWLEDGE BASE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'astroterm'                                                 # Planetarium for your terminal
+
+cask 'anki'                                                      # Powerful, intelligent flash cards
+cask 'calibre'                                                   # E-book manager and viewer
+cask 'devonthink'                                                # Document and information management solution
+cask 'readest'                                                   # E-book reader
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: SUBSYSTEM EXTENSIONS & TYPEFACE ASSETS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+brew 'duti'                                                      # Select default apps for documents and URL schemes
+brew 'zsh-autosuggestions'                                       # Fish-like fast/unobtrusive autosuggestions for zsh
+brew 'zsh-syntax-highlighting'                                   # Fish-shell-like syntax highlighting for zsh
+
+cask 'font-hack-nerd-font'                                       # Hack Nerd Font (Bitstream Vera Sans Mono)
+cask 'font-noto-sans-cjk'                                        # Noto Sans CJK language font
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: APP STORE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+mas 'APTV', id: 1630403500
+mas 'uBlock Origin Lite', id: 6745342698
+mas 'Xcode', id: 497799835
+# mas 'Lookupper', id: 1667225994

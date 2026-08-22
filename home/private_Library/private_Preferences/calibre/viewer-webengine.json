@@ -1,0 +1,352 @@
+{
+  "geometry-of-main_window_geometry": {
+    "frame_geometry": {
+      "height": 748,
+      "width": 838,
+      "x": 2368,
+      "y": 285
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 720,
+      "width": 838,
+      "x": 2368,
+      "y": 313
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 720,
+      "width": 838,
+      "x": 2368,
+      "y": 313
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAlAAAABHQAADIUAAAQIAAAJQAAAATkAAAyFAAAECAAAAAEAAAAAB4AAAAlAAAABOQAADIUAAAQI"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920,
+        "x": 1728,
+        "y": 0
+      },
+      "index_in_screens_list": 1,
+      "manufacturer": "",
+      "model": "",
+      "name": "DELL U2723QE",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1080,
+        "width": 1920
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-viewer_image_popup_geometry": {
+    "frame_geometry": {
+      "height": 969,
+      "width": 1042,
+      "x": 318,
+      "y": 38
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 941,
+      "width": 1042,
+      "x": 318,
+      "y": 66
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 941,
+      "width": 1042,
+      "x": 318,
+      "y": 66
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAE+AAAAJgAABU8AAAPuAAABPgAAAEIAAAVPAAAD7gAAAAAAAAAABsAAAAE+AAAAQgAABU8AAAPu"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 2.0,
+      "geometry_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "",
+      "model": "",
+      "name": "Built-in Retina Display",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 1117,
+        "width": 1728
+      },
+      "virtual_geometry": {
+        "height": 1117,
+        "width": 3648,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "image_popup_fit_image": true,
+  "image_popup_zoom_factor": 1,
+  "main_window_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAH9AAAAAgAAAAAAAAEAAAAC0PwCAAAAAvsAAAAQAHQAbwBjAC0AZABvAGMAawEAAAAAAAAC0AAAAIYA////+wAAABYAcwBlAGEAcgBjAGgALQBkAG8AYwBrAAAAAAD/////AAAAlAD///8AAAABAAAAAAAAAAD8AgAAAAT7AAAAFgBsAG8AbwBrAHUAcAAtAGQAbwBjAGsAAAAAAP////8AAAB7AP////sAAAAcAGIAbwBvAGsAbQBhAHIAawBzAC0AZABvAGMAawAAAAAA/////wAAAOYA////+wAAABwAaQBuAHMAcABlAGMAdABvAHIALQBkAG8AYwBrAAAAAAD/////AAAAEgD////7AAAAHgBoAGkAZwBoAGwAaQBnAGgAdABzAC0AZABvAGMAawAAAAAA/////wAAAM8A////AAACQAAAAtAAAAAEAAAABAAAAAgAAAAI/AAAAAEAAAAAAAAAAQAAAB4AYQBjAHQAaQBvAG4AcwBfAHQAbwBvAGwAYgBhAHICAAAAAP////8AAAAAAAAAAA=="
+  },
+  "old_prefs_migrated": true,
+  "session_data": {
+    "controls_help_shown_count": 2,
+    "current_color_scheme": "system",
+    "standalone_font_settings": {},
+    "standalone_misc_settings": {
+      "remember_last_read": true,
+      "remember_window_geometry": false,
+      "save_annotations_in_ebook": true,
+      "singleinstance": false
+    },
+    "standalone_recently_opened": [
+      {
+        "authors": [
+          "Chai Jing",
+          "柴静"
+        ],
+        "key": "/Users/alice/Calibre Library/Chai Jing/Kan Jian (2482)/Kan Jian - Chai Jing.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Chai Jing/Kan Jian (2482)/Kan Jian - Chai Jing.epub",
+        "timestamp": "2025-07-01T10:58:35.271Z",
+        "title": "看见"
+      },
+      {
+        "authors": [
+          "Ron Chernow"
+        ],
+        "key": "/Users/alice/Calibre Library/Ron Chernow/Titan_ The Life of John D. Rockefeller, Sr_ (546)/Titan_ The Life of John D. Rockefeller, Sr - Ron Chernow.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Ron Chernow/Titan_ The Life of John D. Rockefeller, Sr_ (546)/Titan_ The Life of John D. Rockefeller, Sr - Ron Chernow.epub",
+        "timestamp": "2025-06-07T00:19:55.217Z",
+        "title": "Titan"
+      },
+      {
+        "authors": [
+          "Hornby A. S."
+        ],
+        "key": "/Users/alice/Calibre Library/Hornby A. S_/Oxford Advanced Learner's Dictionary, 8th edition (Oxford Advanced Learner's Dictionary) (460)/Oxford Advanced Learner's Dictionary, 8th - Hornby A. S_.mobi",
+        "pathtoebook": "/Users/alice/Calibre Library/Hornby A. S_/Oxford Advanced Learner's Dictionary, 8th edition (Oxford Advanced Learner's Dictionary) (460)/Oxford Advanced Learner's Dictionary, 8th - Hornby A. S_.mobi",
+        "timestamp": "2025-06-02T12:00:15.419Z",
+        "title": "Oxford Advanced Learner’s Dictionary, 8th edition (Oxford Advanced Learner's Dictionary)"
+      },
+      {
+        "authors": [
+          "Jeanne DuPrau"
+        ],
+        "key": "/Users/alice/Calibre Library/Jeanne Duprau/The Diamond of Darkhold (432)/The Diamond of Darkhold - Jeanne Duprau.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Jeanne Duprau/The Diamond of Darkhold (432)/The Diamond of Darkhold - Jeanne Duprau.epub",
+        "timestamp": "2025-06-01T04:01:02.792Z",
+        "title": "The Diamond of Darkhold"
+      },
+      {
+        "authors": [
+          "Martha Wells"
+        ],
+        "key": "/Users/alice/Calibre Library/Martha Wells/Fugitive Telemetry (303)/Fugitive Telemetry - Martha Wells.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Martha Wells/Fugitive Telemetry (303)/Fugitive Telemetry - Martha Wells.epub",
+        "timestamp": "2025-05-28T13:35:00.955Z",
+        "title": "Fugitive Telemetry"
+      },
+      {
+        "authors": [
+          "Robert J. Sawyer"
+        ],
+        "key": "/Users/alice/Calibre Library/Robert J. Sawyer/The Downloaded (284)/The Downloaded - Robert J. Sawyer.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Robert J. Sawyer/The Downloaded (284)/The Downloaded - Robert J. Sawyer.epub",
+        "timestamp": "2025-05-28T03:10:17.685Z",
+        "title": "The Downloaded"
+      },
+      {
+        "authors": [
+          "Rick Riordan"
+        ],
+        "key": "/Users/alice/Calibre Library/Rick Riordan/Percy Jackson and the Olympians (288)/Percy Jackson and the Olympians - Rick Riordan.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Rick Riordan/Percy Jackson and the Olympians (288)/Percy Jackson and the Olympians - Rick Riordan.epub",
+        "timestamp": "2025-05-28T03:07:55.373Z",
+        "title": "Percy Jackson and the Olympians"
+      },
+      {
+        "authors": [
+          "Kate DiCamillo"
+        ],
+        "key": "/Users/alice/Calibre Library/Kate DiCamillo/The Tale of Despereaux (293)/The Tale of Despereaux - Kate DiCamillo.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Kate DiCamillo/The Tale of Despereaux (293)/The Tale of Despereaux - Kate DiCamillo.epub",
+        "timestamp": "2025-05-28T03:03:32.886Z",
+        "title": "The Tale of Despereaux"
+      },
+      {
+        "authors": [
+          "Frances Hodgson Burnett"
+        ],
+        "key": "/Users/alice/Calibre Library/Frances Hodgson Burnett/The Secret Garden (294)/The Secret Garden - Frances Hodgson Burnett.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Frances Hodgson Burnett/The Secret Garden (294)/The Secret Garden - Frances Hodgson Burnett.epub",
+        "timestamp": "2025-05-28T03:00:52.643Z",
+        "title": "The Secret Garden"
+      },
+      {
+        "authors": [
+          "Rick Riordan"
+        ],
+        "key": "/Users/alice/Calibre Library/Rick Riordan/Percy Jackson's Greek Gods (295)/Percy Jackson's Greek Gods - Rick Riordan.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Rick Riordan/Percy Jackson's Greek Gods (295)/Percy Jackson's Greek Gods - Rick Riordan.epub",
+        "timestamp": "2025-05-28T02:59:14.112Z",
+        "title": "Percy Jackson's Greek Gods"
+      },
+      {
+        "authors": [
+          "Rick Riordan"
+        ],
+        "key": "/Users/alice/Calibre Library/Rick Riordan/Camp Half-Blood Confidential (298)/Camp Half-Blood Confidential - Rick Riordan.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Rick Riordan/Camp Half-Blood Confidential (298)/Camp Half-Blood Confidential - Rick Riordan.epub",
+        "timestamp": "2025-05-28T02:51:46.175Z",
+        "title": "Camp Half-Blood Confidential"
+      },
+      {
+        "authors": [
+          "S. J. Huang"
+        ],
+        "key": "/Users/alice/Calibre Library/S. J. Huang/The New Singapore Horror Collection (247)/The New Singapore Horror Collection - S. J. Huang.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/S. J. Huang/The New Singapore Horror Collection (247)/The New Singapore Horror Collection - S. J. Huang.epub",
+        "timestamp": "2025-05-26T10:15:31.971Z",
+        "title": "The New Singapore Horror Collection"
+      },
+      {
+        "authors": [
+          "Robert Jordan"
+        ],
+        "key": "/Users/alice/Calibre Library/Robert Jordan/The Dragon Reborn (278)/The Dragon Reborn - Robert Jordan.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Robert Jordan/The Dragon Reborn (278)/The Dragon Reborn - Robert Jordan.epub",
+        "timestamp": "2025-05-26T06:52:35.347Z",
+        "title": "The Dragon Reborn"
+      },
+      {
+        "authors": [
+          "Robert Jordan"
+        ],
+        "key": "/Users/alice/Calibre Library/Robert Jordan/Winter's heart (273)/Winter's heart - Robert Jordan.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Robert Jordan/Winter's heart (273)/Winter's heart - Robert Jordan.epub",
+        "timestamp": "2025-05-26T06:51:30.294Z",
+        "title": "Winter's heart"
+      },
+      {
+        "authors": [
+          "Robert Jordan"
+        ],
+        "key": "/Users/alice/Calibre Library/Robert Jordan/A crown of swords (274)/A crown of swords - Robert Jordan.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Robert Jordan/A crown of swords (274)/A crown of swords - Robert Jordan.epub",
+        "timestamp": "2025-05-26T06:51:07.651Z",
+        "title": "A crown of swords"
+      },
+      {
+        "authors": [
+          "Tyson, Neil deGrasse; Strauss, Michael A.; Gott, J. Richard",
+          "Michael A. Strauss",
+          "Neil deGrasse Tyson"
+        ],
+        "key": "/Users/alice/Calibre Library/Tyson, Neil deGrasse; Strauss, Michael A.; Gott, J. Richard/Welcome to the Universe (260)/Welcome to the Universe - Tyson, Neil deGrasse; Strauss, Michael A.;.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Tyson, Neil deGrasse; Strauss, Michael A.; Gott, J. Richard/Welcome to the Universe (260)/Welcome to the Universe - Tyson, Neil deGrasse; Strauss, Michael A.;.epub",
+        "timestamp": "2025-05-25T01:52:42.663Z",
+        "title": "Welcome to the Universe"
+      },
+      {
+        "authors": [
+          "Randall Munroe;"
+        ],
+        "key": "/Users/alice/Calibre Library/Randall Munroe/What If_ 2_ Additional Serious Scientific Answers to Absurd Hypothetical Questions (251)/What If_ 2_ Additional Serious Scientific - Randall Munroe.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Randall Munroe/What If_ 2_ Additional Serious Scientific Answers to Absurd Hypothetical Questions (251)/What If_ 2_ Additional Serious Scientific - Randall Munroe.epub",
+        "timestamp": "2025-05-24T08:49:07.767Z",
+        "title": "What If? 2, Additional Serious Scientific Answers to Absurd Hypothetical Questions: Additional Serious Scientific Answers to Absurd Hypothetical Questions"
+      },
+      {
+        "authors": [
+          "Randall Munroe"
+        ],
+        "key": "/Users/alice/Calibre Library/Randall Munroe/What If__ Serious Scientific Answers to Absurd Hypothetical Questions (249)/What If__ Serious Scientific Answers to Ab - Randall Munroe.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Randall Munroe/What If__ Serious Scientific Answers to Absurd Hypothetical Questions (249)/What If__ Serious Scientific Answers to Ab - Randall Munroe.epub",
+        "timestamp": "2025-05-24T08:47:55.603Z",
+        "title": "What If?"
+      },
+      {
+        "authors": [
+          "Jean Craighead George"
+        ],
+        "key": "/Users/alice/Calibre Library/Jean Craighead George/My Side of the Mountain (243)/My Side of the Mountain - Jean Craighead George.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Jean Craighead George/My Side of the Mountain (243)/My Side of the Mountain - Jean Craighead George.epub",
+        "timestamp": "2025-05-23T23:54:23.957Z",
+        "title": "My Side of the Mountain"
+      },
+      {
+        "authors": [
+          "My Side of the Mountain"
+        ],
+        "key": "/Volumes/Stargate/Jean Craighead George - My Side of the Mountain Trilogy/Jean Craighead George - [My Side of the Mountain 01] - My Side of the Mountain.mobi",
+        "pathtoebook": "/Volumes/Stargate/Jean Craighead George - My Side of the Mountain Trilogy/Jean Craighead George - [My Side of the Mountain 01] - My Side of the Mountain.mobi",
+        "timestamp": "2025-05-23T23:51:59.526Z",
+        "title": "Jean Craighead George - [My Side of the Mountain 01] - My Side of the Mountain"
+      },
+      {
+        "authors": [
+          "Jean Craighead George"
+        ],
+        "key": "/Users/alice/Calibre Library/Jean Craighead George/My Side of the Mountain (244)/My Side of the Mountain - Jean Craighead George.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Jean Craighead George/My Side of the Mountain (244)/My Side of the Mountain - Jean Craighead George.epub",
+        "timestamp": "2025-05-23T23:34:27.657Z",
+        "title": "My Side of the Mountain"
+      },
+      {
+        "authors": [
+          "Karl Marx"
+        ],
+        "key": "/Volumes/Stargate/Capital Critique of Political Economy, Volume 1 - Karl Marx.epub",
+        "pathtoebook": "/Volumes/Stargate/Capital Critique of Political Economy, Volume 1 - Karl Marx.epub",
+        "timestamp": "2025-05-20T10:16:53.312Z",
+        "title": "Capital"
+      },
+      {
+        "authors": [
+          "Dalio, Ray"
+        ],
+        "key": "/Users/alice/Calibre Library/Dalio, Ray/Principles for Dealing With the Changing World Order _ Why Nations Succeed and Fail (9781982164 (237)/Principles for Dealing With the Changing W - Dalio, Ray.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Dalio, Ray/Principles for Dealing With the Changing World Order _ Why Nations Succeed and Fail (9781982164 (237)/Principles for Dealing With the Changing W - Dalio, Ray.epub",
+        "timestamp": "2025-05-20T00:16:44.213Z",
+        "title": "Principles for Dealing With the Changing World Order : Why Nations Succeed and Fail (9781982164799), Why Nations Succeed and Fail: Why Nations Succeed and Fail"
+      },
+      {
+        "authors": [
+          "Jasmine Warga"
+        ],
+        "key": "/Users/alice/Calibre Library/Jasmine Warga/Other Words for Home (208)/Other Words for Home - Jasmine Warga.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Jasmine Warga/Other Words for Home (208)/Other Words for Home - Jasmine Warga.epub",
+        "timestamp": "2025-05-19T00:38:58.230Z",
+        "title": "Other Words for Home"
+      },
+      {
+        "authors": [
+          "Jennifer Li Shotz"
+        ],
+        "key": "/Users/alice/Calibre Library/Jennifer Li Shotz/Max (207)/Max - Jennifer Li Shotz.epub",
+        "pathtoebook": "/Users/alice/Calibre Library/Jennifer Li Shotz/Max (207)/Max - Jennifer Li Shotz.epub",
+        "timestamp": "2025-05-19T00:36:44.821Z",
+        "title": "Max"
+      }
+    ]
+  }
+}

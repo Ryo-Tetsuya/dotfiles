@@ -1,0 +1,22 @@
+{
+  "sort_history": [
+    [
+      "authors",
+      true
+    ],
+    [
+      "title",
+      false
+    ],
+    [
+      "publisher",
+      false
+    ],
+    [
+      "timestamp",
+      false
+    ]
+  ],
+  "welcome_wizard_device": "default",
+  "welcome_wizard_was_run": true
+}

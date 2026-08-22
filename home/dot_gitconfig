@@ -1,0 +1,13 @@
+[user]
+        name = ʀʏᴏ ᴋᴀᴍᴜɪ
+        email = ryo.kamui@pm.me
+        signingkey = CB7E388CC8CCF94D6303CFD9BF0E858CDC6B1888
+
+[gpg]
+        format = openpgp
+
+[commit]
+        gpgsign = true
+
+[tag]
+        gpgsign = true

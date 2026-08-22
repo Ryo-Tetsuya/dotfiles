@@ -1,0 +1,117 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/usr/bin/env zsh
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ POST-RUN PATCHES AND CONFIGURATIONS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# This script applies final configurations after the main setup, including sourcing the shell,
+# setting file associations, and applying specific application patches.
+
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: ENVIRONMENT & UI
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Ensure that the environment is correctly sourced in an interactive shell
+zsh -i -c "
+    if [ -f \"$HOME/.zshenv\" ] || [ -f \"$HOME/.zshrc\" ]; then
+        [ -f \"$HOME/.zshenv\" ] && echo 'Sourcing ~/.zshenv to update environment variables' && source \"$HOME/.zshenv\"
+        [ -f \"$HOME/.zshrc\" ] && echo 'Sourcing ~/.zshrc for interactive shell configurations' && source \"$HOME/.zshrc\"
+    fi
+"
+# Reload WezTerm configuration by sending a key combination
+osascript -e 'tell application "System Events" to keystroke "r" using {control down, shift down}'                                                      # Send Ctrl+Shift+R to reload configuration
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: FILE ASSOCIATIONS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Set default application for archive files to Keka
+duti -s com.aone.keka public.archive all 2>/dev/null                                                                                                   # Set default for general archives
+duti -s com.aone.keka public.gzip-archive all 2>/dev/null                                                                                              # Set default for gzip archives
+duti -s com.aone.keka public.rar-archive all 2>/dev/null                                                                                               # Set default for rar archives
+duti -s com.aone.keka public.7z-archive all 2>/dev/null                                                                                                # Set default for 7z archives
+duti -s com.aone.keka public.tar-archive all 2>/dev/null                                                                                               # Set default for tar archives
+duti -s com.aone.keka public.zip all 2>/dev/null                                                                                                       # Set default for zip archives
+
+# Set default application for PDF files to PDF Expert
+duti -s com.readdle.PDFExpert-Mac .pdf all 2>/dev/null                                                                                                 # Set default for .pdf files
+
+# Set default application for video files to Movist Pro
+duti -s com.movist.MovistPro .mkv all 2>/dev/null                                                                                                      # Set default for .mkv files
+duti -s com.movist.MovistPro .mov all 2>/dev/null                                                                                                      # Set default for .mov files
+duti -s com.movist.MovistPro .mp4 all 2>/dev/null                                                                                                      # Set default for .mp4 files
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: HOSTS & PATCHES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Append entries to /etc/hosts to block certain connections
+echo -e "127.0.0.1 daisydiskapp.com\n127.0.0.1 api.devontechnologies.com" | sudo tee -a /etc/hosts >/dev/null                                          # Block DaisyDisk and DEVONthink license checks
+sudo killall -HUP mDNSResponder                                                                                                                        # Flush the DNS cache
+
+# Patch Bloom with a license key
+defaults write com.asiafu.Bloom BloomLicenseKey -string "XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX"                                                          # Apply Bloom license key
+
+# Patch DaisyDisk by creating a license file and setting preferences
+mkdir -p "$HOME/Library/Application Support/DaisyDisk"                                                                                                 # Ensure the application support directory exists
+rm -rf "$HOME/Library/Application Support/DaisyDisk/BlackList.plist"                                                                                   # Remove blacklist file
+defaults write "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk" License_CustomerName "ʀʏᴏ ᴋᴀᴍᴜɪ"                                        # Write license customer name
+defaults write "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk" License_RegistrationKey "VBZXVCBT-WVY54Y5Y-VLLE6CZY-54NMAYXH-AM78BWEM"  # Write license registration key
+mv "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk.plist" "$HOME/Library/Application Support/DaisyDisk/License.DaisyDisk"               # Rename the generated plist to a license file
+defaults write com.daisydiskapp.DaisyDiskStandAlone SUEnableAutomaticChecks -boolean NO                                                                # Disable automatic update checks
+defaults write com.daisydiskapp.DaisyDiskStandAlone MajorUpgrader_suppressUpgrades -boolean YES                                                        # Suppress major upgrade prompts
+defaults write com.daisydiskapp.DaisyDiskStandAlone Application_isFirstLaunch -boolean NO                                                              # Bypass first launch dialog
+defaults write com.daisydiskapp.DaisyDiskStandAlone SUSendProfileInfo -boolean NO                                                                      # Disable sending profile information
+
+# Clear all extended attributes (including the macOS quarantine flag) for all custom app binaries
+find "$HOME/.bin" -type f -name app -exec xattr -cr {} +                                                                                               # Dequarantine custom binaries
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: AUTOPATCH
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Pre-accept GitHub SSH host key to avoid interactive prompt
+ssh-keyscan -t ed25519 github.com >> ~/.ssh/known_hosts 2>/dev/null
+
+# Clone tinyhook repo (shallow, no history) and patch all matching apps
+tinyhook_dir="$HOME/Documents/Git/tinyhook"
+if [ ! -d "$tinyhook_dir" ]; then
+    mkdir -p "$HOME/Documents/Git"
+    git clone --depth 1 git@github.com:RyoKamui/tinyhook.git "$tinyhook_dir"
+fi
+
+ensure_patched_app_signature() {
+    local app_path="$1"
+    local app_name="$2"
+
+    if [[ "$app_name" != "News Explorer" ]] && /usr/bin/codesign --verify --deep --verbose=1 "$app_path" >/dev/null 2>&1; then
+        return
+    fi
+
+    echo -e "\033[1;33m[Autopatch]\033[0m Re-signing ${app_path:t} after patch..."
+    sudo /usr/bin/xattr -cr "$app_path"
+    sudo /usr/bin/codesign --force --deep --sign - "$app_path"
+    /usr/bin/codesign --verify --deep --verbose=1 "$app_path"
+}
+
+# Build tinyhook libraries first
+if [ -f "$tinyhook_dir/build.sh" ]; then
+    echo -e "\033[1;34m[Autopatch]\033[0m Building tinyhook libraries..."
+    cd "$tinyhook_dir" && ./build.sh
+fi
+
+# Run init.sh on all apps that exist in both /Applications and apps.json
+if [ -f "$tinyhook_dir/apps.json" ] && [ -f "$tinyhook_dir/init.sh" ]; then
+    jq -r '.apps[].app_name' "$tinyhook_dir/apps.json" | while IFS= read -r app_name; do
+        app_path="/Applications/${app_name}.app"
+        if [ -d "$app_path" ]; then
+            echo -e "\033[1;32m[Autopatch]\033[0m Patching ${app_name}..."
+            cd "$tinyhook_dir" && ./init.sh "$app_name" -y
+            ensure_patched_app_signature "$app_path" "$app_name"
+        fi
+    done
+fi
+
+{{ end -}}

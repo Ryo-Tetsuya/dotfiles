@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ DECRYPT PRIVATE AGE KEY
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# This script ensures the private age key for chezmoi is decrypted and has the correct
+# permissions, prompting for a passphrase if necessary.
+
+# Only run if the decrypted key does not already exist
+if [ ! -f "${HOME}/.config/chezmoi/key.txt" ]; then
+    mkdir -p "${HOME}/.config/chezmoi"
+
+    echo "Decrypting age key file..."
+    while true; do
+        # Prompt user for passphrase to decrypt the age key file
+        chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
+        if [ $? -eq 0 ]; then
+            break
+        else
+            echo "Incorrect passphrase. Please re-enter the passphrase."
+        fi
+    done
+
+    chmod 600 "${HOME}/.config/chezmoi/key.txt"
+fi

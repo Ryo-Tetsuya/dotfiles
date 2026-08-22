@@ -1,0 +1,26 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/usr/bin/env zsh
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ POST-RUN IMPORTS
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# This script imports configuration sets and data into applications after setup.
+
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: TYPINATOR
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Import Typinator expansion sets
+typinator_tmp="$HOME/temp-typinator"
+mkdir -p "$typinator_tmp"
+curl -L -o "$typinator_tmp/symbols.tyset.zip" "https://github.com/RyoKamui/assets/raw/main/cfgs/typinator/symbols.tyset.zip"
+curl -L -o "$typinator_tmp/sysadmin.tyset.zip" "https://github.com/RyoKamui/assets/raw/main/cfgs/typinator/sysadmin.tyset.zip"
+unzip -q "$typinator_tmp/symbols.tyset.zip" -d "$typinator_tmp"
+unzip -q "$typinator_tmp/sysadmin.tyset.zip" -d "$typinator_tmp"
+open "$typinator_tmp/symbols.tyset" "$typinator_tmp/sysadmin.tyset"                                                                                    # Import into Typinator
+sleep 5                                                                                                                                                 # Wait for Typinator to process import
+rm -rf "$typinator_tmp"
+
+{{ end -}}

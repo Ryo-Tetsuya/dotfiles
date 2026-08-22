@@ -1,0 +1,385 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/usr/bin/env zsh
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ APPLY SYSTEM-WIDE USER PREFERENCES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# This script configures user-specific preferences for macOS UI and behavior.
+# It is idempotent and can be re-run without issue.
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# Boilerplate and Functions
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+# Record start time
+start_time=$(date +%s)
+
+# Get params
+params="$params $*"
+
+# Color variables
+PRIMARY_COLOR='\033[0;32m'
+ACCENT_COLOR='\033[0;34m'
+INFO_COLOR='\033[1;33m'
+INFO_COLOR_U='\033[1;37m'
+SUCCESS_COLOR='\033[0;32m'
+WARN_1='\033[1;31m'
+WARN_2='\033[0;31m'
+RESET_COLOR='\033[0m'
+
+# Current and total tasks, used for progress updates
+current_event=0
+total_events=75
+
+# Helper function to log progress to console
+function log_msg () {
+  current_event=$(($current_event + 1))
+  if [[ ! $params == *"--silent"* ]]; then
+    if (("$current_event" < 10 )); then sp='0'; else sp=''; fi
+    echo -e "${PRIMARY_COLOR}[${sp}${current_event}/${total_events}] ${ACCENT_COLOR}${1}${INFO_COLOR}"
+  fi
+}
+
+# Helper function to log section to console
+function log_section () {
+  if [[ ! $params == *"--silent"* ]]; then
+    echo -e "\n${PRIMARY_COLOR}[INFO ] ${1}${INFO_COLOR}"
+  fi
+}
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# Execution Start
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+if [[ ! $params == *"--skip-intro"* ]]; then
+  echo -e "${PRIMARY_COLOR}Applying macOS User Preferences...${RESET_COLOR}"
+  echo -e "${WARN_1}IMPORTANT:${WARN_2} This script will make changes to your system."
+fi
+
+echo -e "${ACCENT_COLOR}\nElevated permissions are required for some settings."
+sudo -v
+if [ $? -ne 0 ]; then
+  echo -e "${ACCENT_COLOR}Unable to continue without sudo permissions. Exiting...${RESET_COLOR}"
+  exit 1
+fi
+
+# Set variables
+COMPUTER_NAME="Hypernova"
+HOST_NAME="hypernova"
+HIGHLIGHT_COLOR="1 0.647059 0"
+
+# Quit System Settings before starting to ensure changes are not overwritten.
+osascript -e 'tell application "System Settings" to quit' &>/dev/null
+
+# Keep script alive for sudo commands
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: DEVICE & LOCALE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Device and Locale..."
+
+log_msg "Setting computer name to '$COMPUTER_NAME'"
+sudo scutil --set ComputerName "$COMPUTER_NAME"                                                                      # Set computer name (as seen in Finder)
+
+log_msg "Setting remote hostname to '$HOST_NAME'"
+sudo scutil --set HostName "$HOST_NAME"                                                                              # Set hostname for remote access
+
+log_msg "Setting local hostname to '$HOST_NAME'"
+sudo scutil --set LocalHostName "$HOST_NAME"                                                                         # Set Bonjour name
+
+log_msg "Setting SMB hostname to '$HOST_NAME'"
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$HOST_NAME"   # Set NetBIOS name for SMB
+
+log_msg "Setting system language to English (SG)"
+defaults write NSGlobalDomain AppleLanguages -array "en_SG"                                                          # Set system language
+
+log_msg "Setting system time zone to Singapore"
+sudo systemsetup -settimezone "Asia/Singapore" >/dev/null 2>&1                                                       # Set system time zone
+
+log_msg "Setting measurement units to Centimeters"
+defaults write NSGlobalDomain AppleMeasurementUnits -string "Centimeters"                                            # Set measurement unit type
+
+log_msg "Enabling metric units"
+defaults write NSGlobalDomain AppleMetricUnits -bool true                                                            # Use metric system
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: UI & UX
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring System UI and UX..."
+
+log_msg "Setting UI highlight color to orange"
+defaults write NSGlobalDomain AppleHighlightColor -string "${HIGHLIGHT_COLOR}"                                       # Set highlight color for text and controls
+
+log_msg "Setting screenshot save location"
+defaults write com.apple.screencapture location -string "${HOME}/Pictures/Screenshots"                               # Set screenshot directory
+
+log_msg "Setting screenshot format to PNG"
+defaults write com.apple.screencapture type -string "png"                                                            # Set screenshot file format
+
+log_msg "Setting scrollbars to always show"
+defaults write NSGlobalDomain AppleShowScrollBars -string "Always"                                                   # Always show scrollbars
+
+log_msg "Setting sidebar icon size to medium"
+defaults write NSGlobalDomain NSTableViewDefaultSizeMode -int 1                                                      # Use medium-sized sidebar icons
+
+log_msg "Disabling toolbar title rollover delay"
+defaults write NSGlobalDomain NSToolbarTitleViewRolloverDelay -float 0                                               # Adjust toolbar title delay
+
+log_msg "Expanding save panels by default"
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true                                          # Expand save dialogs
+
+log_msg "Expanding save panels (modern) by default"
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true                                         # Expand modern save dialogs
+
+log_msg "Expanding print panels by default"
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true                                             # Expand print dialogs
+
+log_msg "Expanding print panels (modern) by default"
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true                                            # Expand modern print dialogs
+
+log_msg "Saving new documents to disk by default"
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false                                          # Save to disk, not iCloud, by default
+
+log_msg "Quitting printer app after jobs complete"
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true                                         # Auto-quit printer app
+
+# Remove duplicates in 'Open With' menu
+log_msg "Rebuilding Launch Services database"
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+  -kill -r -domain local -domain system -domain user
+
+log_msg "Showing ASCII control characters in text"
+defaults write NSGlobalDomain NSTextShowsControlCharacters -bool true                                                # Show control characters in text views
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: POWER & LOCK SCREEN
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Power and Lock Screen..."
+
+log_msg "Enabling waking on lid opening"
+sudo pmset -a lidwake 1                                                                                              # Enable wake on lid open
+
+log_msg "Enabling auto-restart on power loss"
+sudo pmset -a autorestart 1                                                                                          # Enable auto-restart after power failure
+
+log_msg "Setting display sleep time to 15 minutes"
+sudo pmset -a displaysleep 15                                                                                        # Set display sleep timer
+
+log_msg "Setting system sleep time to 30 minutes"
+sudo pmset -b sleep 30                                                                                               # Set system sleep timer on battery
+
+log_msg "Disabling automatic system sleep on AC"
+sudo pmset -c sleep 0                                                                                                # Prevent system from sleeping on AC power
+
+log_msg "Disabling system-wide window restoration"
+defaults write com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false                                      # Don't resume windows on app re-launch
+
+log_msg "Disabling automatic app termination"
+defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true                                               # Prevent apps from being auto-terminated
+
+log_msg "Disabling the crash reporter dialog"
+defaults write com.apple.CrashReporter DialogType -string "none"                                                     # Disable crash report dialog
+
+log_msg "Adding host info to the login screen"
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName                                # Show IP/hostname on login screen
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: SOUND & DISPLAY
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Sound and Display..."
+
+log_msg "Increasing Bluetooth audio quality"
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40                                  # Increase Bluetooth headphone audio quality
+
+log_msg "Enabling HiDPI display modes for scaling"
+sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true                  # Enable HiDPI modes for scaling
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: KEYBOARD & MOUSE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Keyboard, Mouse, and Trackpad..."
+
+log_msg "Disabling automatic text capitalization"
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false                                           # Disable auto-capitalization
+
+log_msg "Disabling automatic dash substitution"
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false                                         # Disable smart dashes
+
+log_msg "Disabling automatic period substitution"
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false                                       # Disable double-space period
+
+log_msg "Disabling automatic quote substitution"
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false                                        # Disable smart quotes
+
+log_msg "Disabling automatic spell correction"
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false                                       # Disable auto-correct
+
+log_msg "Enabling full keyboard access for all controls"
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 3                                                             # Enable Tab to move focus to all controls
+
+log_msg "Hiding the input source menu from the menu bar"
+defaults write com.apple.TextInputMenu visible -bool false                                                           # Hide the input menu from the menu bar
+defaults write com.apple.TextInputMenuAgent "NSStatusItem Visible Item-0" -bool false                                # Hide the input menu status item
+defaults write com.apple.TextInputMenuAgent "NSStatusItem VisibleCC Item-0" -bool false                              # Hide the input menu Control Center status item
+
+log_msg "Enabling accessibility zoom with scroll wheel"
+defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true                                       # Allow zooming with scroll gesture
+
+log_msg "Setting zoom modifier key to Control"
+defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 262144                                       # Use Ctrl key to zoom
+
+log_msg "Following keyboard focus while zoomed"
+defaults write com.apple.universalaccess closeViewZoomFollowsFocus -bool true                                        # Keep zoom focus with keyboard
+
+log_msg "Setting a fast initial key repeat rate"
+defaults write NSGlobalDomain InitialKeyRepeat -int 50                                                               # Set initial key repeat rate
+
+log_msg "Setting a fast standard key repeat rate"
+defaults write NSGlobalDomain KeyRepeat -int 8                                                                       # Set standard key repeat rate
+
+log_msg "Enabling tap to click for the trackpad"
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true                                # Enable tap to click
+
+log_msg "Enabling tap to click for current user"
+defaults -currentHost write NSGlobalDomain com.apple.mouse.tapBehavior -int 1                                        # Enable tap behavior for current user
+
+log_msg "Enabling tap to click on login screen"
+defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1                                                     # Enable tap behavior for login screen
+
+log_msg "Setting mouse tracking speed to fast"
+defaults write -g com.apple.mouse.scaling -float 3                                                                   # Set mouse tracking speed
+
+log_msg "Setting mouse scrolling speed to fast"
+defaults write -g com.apple.scrollwheel.scaling -float 1.5                                                           # Set scroll wheel speed
+
+log_msg "Disabling 'natural' scrolling direction"
+defaults write -g com.apple.swipescrolldirection -bool false                                                         # Disable natural scroll direction
+
+log_msg "Disabling Hot Corner: Top Left"
+defaults write com.apple.dock wvous-tl-corner -int 0; defaults write com.apple.dock wvous-tl-modifier -int 0         # Top-left: disabled
+
+log_msg "Disabling Hot Corner: Bottom Left"
+defaults write com.apple.dock wvous-bl-corner -int 0; defaults write com.apple.dock wvous-bl-modifier -int 0         # Bottom-left: disabled
+
+log_msg "Enabling Hot Corner: Bottom Right (Mission Control)"
+defaults write com.apple.dock wvous-br-corner -int 2; defaults write com.apple.dock wvous-br-modifier -int 1048576   # Bottom-right: Mission Control
+
+log_msg "Enabling Hot Corner: Top Right (Launchpad)"
+defaults write com.apple.dock wvous-tr-corner -int 11; defaults write com.apple.dock wvous-tr-modifier -int 1048576  # Top-right: Launchpad
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: SPOTLIGHT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Spotlight..."
+
+# Set Spotlight search result order and categories
+log_msg "Configuring Spotlight search categories"
+defaults write com.apple.spotlight orderedItems -array \
+  '{"enabled" = 1;"name" = "APPLICATIONS";}' \
+  '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
+  '{"enabled" = 1;"name" = "DIRECTORIES";}' \
+  '{"enabled" = 1;"name" = "PDF";}' \
+  '{"enabled" = 0;"name" = "FONTS";}' \
+  '{"enabled" = 0;"name" = "DOCUMENTS";}' \
+  '{"enabled" = 0;"name" = "MESSAGES";}' \
+  '{"enabled" = 0;"name" = "CONTACT";}' \
+  '{"enabled" = 0;"name" = "EVENT_TODO";}' \
+  '{"enabled" = 0;"name" = "IMAGES";}' \
+  '{"enabled" = 0;"name" = "BOOKMARKS";}' \
+  '{"enabled" = 0;"name" = "MUSIC";}' \
+  '{"enabled" = 0;"name" = "MOVIES";}' \
+  '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
+  '{"enabled" = 0;"name" = "SPREADSHEETS";}' \
+  '{"enabled" = 0;"name" = "SOURCE";}' \
+  '{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
+  '{"enabled" = 0;"name" = "MENU_OTHER";}' \
+  '{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
+  '{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
+  '{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
+  '{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
+
+log_msg "Refreshing the Spotlight index"
+killall mds >/dev/null 2>&1; sudo mdutil -i on / >/dev/null; sudo mdutil -E / >/dev/null                             # Rebuild Spotlight index
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: DOCK & LAUNCHPAD
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Dock and Launchpad..."
+
+log_msg "Setting Dock position to bottom of screen"
+defaults write com.apple.dock orientation bottom                                                                     # Set Dock position
+
+log_msg "Removing all default apps from the Dock"
+defaults write com.apple.dock persistent-apps -array                                                                 # Clear default Dock apps
+
+log_msg "Adding a highlight effect to Dock stacks"
+defaults write com.apple.dock mouse-over-hilite-stack -bool true                                                     # Enable highlight effect for stacks
+
+log_msg "Setting Dock icon size to 64px"
+defaults write com.apple.dock tilesize -int 64                                                                       # Set icon size to 64px
+
+log_msg "Setting Dock animation to scale effect"
+defaults write com.apple.dock mineffect -string "scale"                                                              # Use scale effect for minimization
+
+log_msg "Minimizing windows into app icons"
+defaults write com.apple.dock minimize-to-application -bool true                                                     # Minimize to app icon
+
+log_msg "Enabling spring loading for all Dock items"
+defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true                                     # Enable spring loading
+
+log_msg "Showing indicator lights for open apps"
+defaults write com.apple.dock show-process-indicators -bool true                                                     # Show open application indicators
+
+log_msg "Setting a slow Dock opening animation"
+defaults write com.apple.dock expose-animation-duration -float 1                                                     # Set animation speed
+
+log_msg "Disabling auto-rearranging of Spaces"
+defaults write com.apple.dock mru-spaces -bool false                                                                 # Disable auto-rearranging spaces based on use
+
+log_msg "Setting the Dock to auto-hide"
+defaults write com.apple.dock autohide -bool true                                                                    # Enable Dock auto-hiding
+
+log_msg "Setting a fast Dock auto-hide delay"
+defaults write com.apple.dock autohide-delay -float 0.05                                                             # Set auto-hide delay
+
+log_msg "Setting a fast Dock show/hide animation"
+defaults write com.apple.dock autohide-time-modifier -float 0.25                                                     # Set animation time
+
+log_msg "Showing hidden applications in the Dock"
+defaults write com.apple.dock showhidden -bool true                                                                  # Show hidden app icons as translucent
+
+log_msg "Disabling recent applications in the Dock"
+defaults write com.apple.dock show-recents -bool false                                                               # Do not show recent apps in Dock
+
+# Disable click wallpaper to show desktop (Sonoma+)
+log_msg "Disabling 'Click wallpaper to show desktop'"
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -int 0
+
+log_msg "Configuring Dock items with dockutil"
+apps_to_add_to_dock=(
+  "Mail" "BusyCal" "Bloom" "Helium"
+  "Telegram" "WeChat" "WhatsApp" "News Explorer"
+  "Fork" "Transmit" "Octarine" "Numi" "qBittorrent"
+  "Rclone Browser" "Surge" "TablePlus" "WezTerm" "Zed"
+  "System Settings"
+)
+IFS=""
+for app in "${apps_to_add_to_dock[@]}"; do
+  if [[ -d "/Applications/${app}.app" ]]; then
+    dockutil --add "/Applications/${app}.app" --no-restart >/dev/null 2>&1
+  elif [[ -d "/System/Applications/${app}.app" ]]; then
+    dockutil --add "/System/Applications/${app}.app" --no-restart >/dev/null 2>&1
+  fi
+done
+
+log_msg "Restarting the Dock to apply changes"
+killall Dock                                                                                                         # Apply Dock changes
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ FINISH
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+echo -e "${PRIMARY_COLOR}\nFinishing...${RESET_COLOR}"
+echo -e "${SUCCESS_COLOR}✔ ${current_event}/${total_events} user preference tasks were completed successfully in $(($(date +%s)-start_time)) seconds${RESET_COLOR}"
+
+{{ end -}}

@@ -1,0 +1,353 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/usr/bin/env zsh
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ APPLY SYSTEM-WIDE APPLICATION PREFERENCES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# This script configures preferences for built-in macOS applications and services.
+# It is idempotent and can be re-run without issue.
+
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# Boilerplate and Functions
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+# Record start time
+start_time=$(date +%s)
+
+# Get params
+params="$params $*"
+
+# Color variables
+PRIMARY_COLOR='\033[0;32m'
+ACCENT_COLOR='\033[0;34m'
+INFO_COLOR='\033[1;33m'
+INFO_COLOR_U='\033[1;37m'
+SUCCESS_COLOR='\033[0;32m'
+WARN_1='\033[1;31m'
+WARN_2='\033[0;31m'
+RESET_COLOR='\033[0m'
+
+# Current and total tasks, used for progress updates
+current_event=0
+total_events=77
+
+# Helper function to log progress to console
+function log_msg () {
+  current_event=$(($current_event + 1))
+  if [[ ! $params == *"--silent"* ]]; then
+    if (("$current_event" < 10 )); then sp='0'; else sp=''; fi
+    echo -e "${PRIMARY_COLOR}[${sp}${current_event}/${total_events}] ${ACCENT_COLOR}${1}${INFO_COLOR}"
+  fi
+}
+
+# Helper function to log section to console
+function log_section () {
+  if [[ ! $params == *"--silent"* ]]; then
+    echo -e "\n${PRIMARY_COLOR}[INFO ] ${1}${INFO_COLOR}"
+  fi
+}
+
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# Execution Start
+# ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+if [[ ! $params == *"--skip-intro"* ]]; then
+  clear
+  echo -e "${PRIMARY_COLOR}Applying macOS App Preferences...${RESET_COLOR}"
+  echo -e "${WARN_1}IMPORTANT:${WARN_2} This script will make changes to your system."
+fi
+
+echo -e "${ACCENT_COLOR}\nElevated permissions are required for some settings."
+sudo -v
+if [ $? -ne 0 ]; then
+    echo -e "${ACCENT_COLOR}Unable to continue without sudo permissions. Exiting...${RESET_COLOR}"
+    exit 1
+fi
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: FINDER
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Finder..."
+
+log_msg "Setting new windows to open to Home"
+defaults write com.apple.finder NewWindowTarget -string "PfHm"                          # Set new window target to home directory
+
+log_msg "Setting new tabs to open to file root"
+defaults write com.apple.finder NewWindowTargetPath -string "file:///"                  # Set new tab target to root
+
+log_msg "Showing all file extensions in filenames"
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true                         # Show all filename extensions
+
+log_msg "Disabling the empty trash confirmation"
+defaults write com.apple.finder WarnOnEmptyTrash -bool false                            # Disable warning before emptying trash
+
+log_msg "Showing all network locations and drives"
+defaults write com.apple.NetworkBrowser BrowseAllInterfaces -bool true                  # Browse all network interfaces
+
+log_msg "Showing the user's Library folder"
+chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library > /dev/null 2>&1  # Unhide the user's Library folder
+
+log_msg "Showing the main Volumes folder"
+sudo chflags nohidden /Volumes                                                          # Unhide the Volumes folder
+
+log_msg "Allowing Finder to be quit with ⌘+Q"
+defaults write com.apple.finder QuitMenuItem -bool true                                 # Enable Quit menu item for Finder
+
+log_msg "Showing the status bar in Finder windows"
+defaults write com.apple.finder ShowStatusBar -bool true                                # Show Finder status bar
+
+log_msg "Showing the path bar in Finder windows"
+defaults write com.apple.finder ShowPathbar -bool true                                  # Show Finder path bar
+
+log_msg "Expanding 'General' File Info pane"
+defaults write com.apple.finder FXInfoPanesExpanded -dict-add General -bool true        # Expand General pane
+
+log_msg "Expanding 'Open With' File Info pane"
+defaults write com.apple.finder FXInfoPanesExpanded -dict-add OpenWith -bool true       # Expand Open With pane
+
+log_msg "Expanding 'Privileges' File Info pane"
+defaults write com.apple.finder FXInfoPanesExpanded -dict-add Privileges -bool true     # Expand Privileges pane
+
+log_msg "Sorting folders first in window views"
+defaults write com.apple.finder _FXSortFoldersFirst -bool true                          # Keep folders on top when sorting
+
+log_msg "Searching the current folder by default"
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"                     # Set default search scope to current folder
+
+log_msg "Setting default Finder view to list"
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"                     # Set default view to list view
+
+log_msg "Disabling the file extension change warning"
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false              # Disable file extension change warning
+
+log_msg "Disabling .DS_Store file creation on network"
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true            # Prevent .DS_Store files on network volumes
+
+log_msg "Disabling .DS_Store file creation on USB"
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true                # Prevent .DS_Store files on USB volumes
+
+log_msg "Disabling disk image verification"
+defaults write com.apple.frameworks.diskimages skip-verify -bool true                   # Disable verification for local images
+
+log_msg "Disabling locked disk image verification"
+defaults write com.apple.frameworks.diskimages skip-verify-locked -bool true            # Disable verification for locked images
+
+log_msg "Disabling remote disk image verification"
+defaults write com.apple.frameworks.diskimages skip-verify-remote -bool true            # Disable verification for remote images
+
+log_msg "Opening read-only disk images on mount"
+defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true             # Auto-open for read-only volumes
+
+log_msg "Opening read-write disk images on mount"
+defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true             # Auto-open for read-write volumes
+
+log_msg "Opening new Finder window for new disks"
+defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true                # Open new window for removable disks
+
+log_msg "Showing item info below desktop icons"
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist      # Show item info on desktop
+
+log_msg "Showing item info in Finder icon views"
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist  # Show item info in foreign key views
+
+log_msg "Showing item info in standard icon views"
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" ~/Library/Preferences/com.apple.finder.plist     # Show item info in standard views
+
+log_msg "Placing icon labels on the right side"
+/usr/libexec/PlistBuddy -c "Set DesktopViewSettings:IconViewSettings:labelOnBottom false" ~/Library/Preferences/com.apple.finder.plist     # Set icon label position
+
+log_msg "Enabling snap-to-grid on the desktop"
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist         # Enable desktop snap-to-grid
+
+log_msg "Enabling snap-to-grid in Finder icon views"
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist     # Enable foreign key view snap-to-grid
+
+log_msg "Enabling snap-to-grid in standard icon views"
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" ~/Library/Preferences/com.apple.finder.plist        # Enable standard view snap-to-grid
+
+log_msg "Setting desktop grid spacing to 100px"
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist        # Set desktop grid spacing
+
+log_msg "Setting Finder grid spacing to 100px"
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist    # Set foreign key view grid spacing
+
+log_msg "Setting standard view grid spacing to 100px"
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" ~/Library/Preferences/com.apple.finder.plist       # Set standard view grid spacing
+
+log_msg "Setting desktop icon size to 80px"
+/usr/libexec/PlistBuddy -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist            # Set desktop icon size
+
+log_msg "Setting Finder icon size to 80px"
+/usr/libexec/PlistBuddy -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist        # Set foreign key view icon size
+
+log_msg "Setting standard view icon size to 80px"
+/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:iconSize 80" ~/Library/Preferences/com.apple.finder.plist           # Set standard view icon size
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: SAFARI & WEBKIT
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Safari and WebKit..."
+
+log_msg "Disabling Universal Search"
+defaults write com.apple.Safari UniversalSearchEnabled -bool false                       # Don't send search queries to Apple
+
+log_msg "Disabling search suggestions"
+defaults write com.apple.Safari SuppressSearchSuggestions -bool true                     # Don't send search suggestions to Apple
+
+log_msg "Showing the full URL in the search field"
+defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true                 # Show full URL
+
+log_msg "Setting Safari's homepage to blank"
+defaults write com.apple.Safari Homepage -string "about:blank"                           # Set homepage to about:blank
+
+log_msg "Disabling automatic opening of safe files"
+defaults write com.apple.Safari AutoOpenSafeDownloads -bool false                        # Don't open safe files automatically
+
+log_msg "Hiding Safari's favorites bar by default"
+defaults write com.apple.Safari ShowFavoritesBar -bool false                             # Hide favorites bar
+
+log_msg "Hiding Safari's sidebar in Top Sites"
+defaults write com.apple.Safari ShowSidebarInTopSites -bool false                        # Hide sidebar in Top Sites
+
+log_msg "Disabling Safari's thumbnail cache"
+defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2                        # Disable thumbnail cache
+
+log_msg "Enabling 'contains' search by default"
+defaults write com.apple.Safari FindOnPageMatchesWordStartsOnly -bool false              # Set find-on-page to match any part of a word
+
+log_msg "Removing unneeded bookmarks bar icons"
+defaults write com.apple.Safari ProxiesInBookmarksBar "()"                               # Remove proxy icons
+
+log_msg "Enabling continuous spell checking"
+defaults write com.apple.Safari WebContinuousSpellCheckingEnabled -bool true             # Enable spell check
+
+log_msg "Disabling automatic spelling correction"
+defaults write com.apple.Safari WebAutomaticSpellingCorrectionEnabled -bool false        # Disable auto-correct
+
+log_msg "Disabling address book auto-fill"
+defaults write com.apple.Safari AutoFillFromAddressBook -bool false                      # Disable address book auto-fill
+
+log_msg "Disabling password auto-fill"
+defaults write com.apple.Safari AutoFillPasswords -bool false                            # Disable password auto-fill
+
+log_msg "Disabling credit card auto-fill"
+defaults write com.apple.Safari AutoFillCreditCardData -bool false                       # Disable credit card auto-fill
+
+log_msg "Disabling miscellaneous form auto-fill"
+defaults write com.apple.Safari AutoFillMiscellaneousForms -bool false                   # Disable miscellaneous form auto-fill
+
+log_msg "Enabling fraudulent website warnings"
+defaults write com.apple.Safari WarnAboutFraudulentWebsites -bool true                   # Warn about fraudulent websites
+
+log_msg "Disabling automatic pop-up windows"
+defaults write com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false  # Prevent pop-ups
+
+log_msg "Disabling automatic pop-up windows (Content)"
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false  # Prevent content-specific pop-ups
+
+log_msg "Disallowing inline video playback"
+defaults write com.apple.Safari WebKitMediaPlaybackAllowsInline -bool false                                               # Disable inline video
+
+log_msg "Disallowing inline video playback (Tech Preview)"
+defaults write com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool false                              # Disable inline video in Safari Tech Preview
+
+log_msg "Disallowing inline video playback (Content)"
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false  # Disable content-specific inline video
+
+log_msg "Disallowing inline video playback (Content, Tech Preview)"
+defaults write com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false  # Disable content-specific inline video in Tech Preview
+
+log_msg "Enabling the 'Do Not Track' HTTP header"
+defaults write com.apple.Safari SendDoNotTrackHTTPHeader -bool true              # Send Do Not Track header
+
+log_msg "Enabling automatic extension updates"
+defaults write com.apple.Safari InstallExtensionUpdatesAutomatically -bool true  # Auto-update extensions
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: TERMINAL
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Terminal.app..."
+
+log_msg "Setting Terminal to use UTF-8 only"
+defaults write com.apple.terminal StringEncodings -array 4                       # Use UTF-8 encoding
+
+log_msg "Enabling Secure Keyboard Entry"
+defaults write com.apple.terminal SecureKeyboardEntry -bool true                 # Enable Secure Keyboard Entry
+
+# Download and apply terminal theme
+log_msg "Applying the 'Macchiato' theme"
+(
+  curl -LOJs https://raw.githubusercontent.com/RyoKamui/assets/main/profiles/terminal/Macchiato.terminal && \
+  theme=$(<Macchiato.terminal) && \
+  plutil -replace 'Window Settings.Macchiato' -xml "$theme" ~/Library/Preferences/com.apple.Terminal.plist && \
+  defaults write com.apple.terminal 'Default Window Settings' -string Macchiato && \
+  defaults write com.apple.terminal 'Startup Window Settings' -string Macchiato && \
+  osascript -e 'tell application "Terminal" to set current settings of first window to settings set "Macchiato"' && \
+  rm Macchiato.terminal
+)
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: TIME MACHINE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Time Machine..."
+
+log_msg "Preventing prompts for new backup drives"
+defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true      # Don't offer new disks for backup
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: ACTIVITY MONITOR
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Activity Monitor..."
+
+log_msg "Showing the main window on launch"
+defaults write com.apple.ActivityMonitor OpenMainWindow -bool true               # Show main window on launch
+
+log_msg "Visualizing CPU usage in the Dock icon"
+defaults write com.apple.ActivityMonitor IconType -int 5                         # Set Dock icon to show CPU usage
+
+log_msg "Showing all processes by default"
+defaults write com.apple.ActivityMonitor ShowCategory -int 0                     # Show all processes by default
+
+log_msg "Sorting processes by CPU usage"
+defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"           # Set sort column to CPU Usage
+
+log_msg "Setting sort direction to descending"
+defaults write com.apple.ActivityMonitor SortDirection -int 0                    # Set sort direction to descending
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: APP STORE
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring App Store..."
+
+log_msg "Enabling automatic update checks"
+defaults write com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true         # Enable automatic update checks
+
+log_msg "Enabling auto-install of critical updates"
+defaults write com.apple.SoftwareUpdate CriticalUpdateInstall -int 1             # Auto-install critical updates
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ SECTION: PERIPHERALS & MEDIA
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Configuring Photos and Messages..."
+
+log_msg "Preventing Photos from auto-launching"
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true     # Disable Photos auto-launch on device connection
+
+log_msg "Disabling automatic emoji substitution"
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticEmojiSubstitutionEnablediMessage" -bool false  # Disable auto-emoji
+
+log_msg "Disabling smart quotes in Messages"
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false          # Disable smart quotes
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ■ FINISH
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+log_section "Restarting affected applications..."
+for app in "Activity Monitor" "Finder" "Messages" "Photos" "Safari" "Terminal"; do
+	killall "${app}" &> /dev/null
+done
+
+echo -e "${PRIMARY_COLOR}\nFinishing...${RESET_COLOR}"
+echo -e "${SUCCESS_COLOR}✔ ${current_event}/${total_events} app preference tasks were completed successfully in $(($(date +%s)-start_time)) seconds${RESET_COLOR}"
+
+{{ end -}}
